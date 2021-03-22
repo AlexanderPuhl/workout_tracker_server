@@ -6,7 +6,7 @@ const {
   DB_TEST_DATABASE,
   DB_PASSWORD,
   DB_PORT,
-} = require("../config");
+} = require('../config');
 
 module.exports = {
   test: {
@@ -19,10 +19,10 @@ module.exports = {
       password: DB_PASSWORD,
     },
     migrations: {
-      directory: __dirname + "/migrations",
+      directory: `${__dirname}/migrations`,
     },
     seeds: {
-      directory: __dirname + "/seeds/test",
+      directory: `${__dirname}/seeds/test`,
     },
     log: {
       warn(message) {},
@@ -41,10 +41,10 @@ module.exports = {
       password: DB_PASSWORD,
     },
     migrations: {
-      directory: __dirname + "/migrations",
+      directory: `${__dirname}/migrations`,
     },
     seeds: {
-      directory: __dirname + "/seeds/development",
+      directory: `${__dirname}/seeds/development`,
     },
   },
   staging: {
@@ -61,7 +61,7 @@ module.exports = {
       max: 20,
     },
     migrations: {
-      tableName: "knex_migrations",
+      tableName: 'knex_migrations',
     },
   },
   production: {
@@ -78,10 +78,10 @@ module.exports = {
       max: 10,
     },
     migrations: {
-      directory: __dirname + "/migrations",
+      directory: `${__dirname}/migrations`,
     },
     seeds: {
-      directory: __dirname + "/seeds/production",
+      directory: `${__dirname}/seeds/production`,
     },
   },
 };

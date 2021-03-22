@@ -3,6 +3,8 @@
   "version": "1.0.0",
   "description": "",
   "main": "server.js",
+  "author": "Alex Puhl",
+  "license": "ISC",
   "scripts": {
     "start": "nodemon server.js",
     "test": "mocha",
@@ -10,8 +12,6 @@
     "heroku": "node server.js",
     "travis": "npm run mocha"
   },
-  "author": "Alex Puhl",
-  "license": "ISC",
   "dependencies": {
     "bcryptjs": "^2.4.3",
     "cors": "^2.8.5",
@@ -27,10 +27,15 @@
     "pg": "^8.5.1"
   },
   "devDependencies": {
+    "@typescript-eslint/eslint-plugin": "^4.19.0",
+    "@typescript-eslint/parser": "^4.19.0",
     "chai": "^4.3.4",
     "chai-http": "^4.3.0",
     "colors": "^1.4.0",
     "cross-env": "^7.0.3",
+    "eslint": "^7.22.0",
+    "eslint-config-airbnb-base": "^14.2.1",
+    "eslint-plugin-import": "^2.22.1",
     "mocha": "^8.3.2",
     "nyc": "^15.1.0"
   }

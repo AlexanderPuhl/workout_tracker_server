@@ -5,7 +5,7 @@ const {
   DB_TEST_DATABASE,
   DB_PASSWORD,
   DB_PORT,
-} = require("../config");
+} = require('../config');
 
 module.exports = {
   test: {
