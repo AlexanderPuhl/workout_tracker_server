@@ -1,9 +1,9 @@
 {
   "name": "workout_tracker_server",
+  "author": "Alex Puhl",
   "version": "1.0.0",
   "description": "",
   "main": "server.js",
-  "author": "Alex Puhl",
   "license": "ISC",
   "scripts": {
     "start": "nodemon server.js",
@@ -27,6 +27,8 @@
     "pg": "^8.5.1"
   },
   "devDependencies": {
+    "@types/express": "^4.17.11",
+    "@types/node": "^14.14.35",
     "@typescript-eslint/eslint-plugin": "^4.19.0",
     "@typescript-eslint/parser": "^4.19.0",
     "chai": "^4.3.4",
@@ -37,6 +39,8 @@
     "eslint-config-airbnb-base": "^14.2.1",
     "eslint-plugin-import": "^2.22.1",
     "mocha": "^8.3.2",
-    "nyc": "^15.1.0"
+    "nyc": "^15.1.0",
+    "ts-node": "^9.1.1",
+    "typescript": "^4.2.3"
   }
 }
