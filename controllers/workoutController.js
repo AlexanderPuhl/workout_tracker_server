@@ -38,8 +38,10 @@ exports.createWorkout = async (req, res, next) => {
 // @route Get /api/workout
 // @access Private
 exports.getAllWorkouts = async (req, res, next) => {
+  const { userId } = req.user;
+
   try {
-    const { rows } = await pg.query('SELECT * FROM workout');
+    const { rows } = await pg.query('SELECT * FROM workout WHERE user_id = $1', [userId]);
     res.status(200).json(rows);
   } catch (error) {
     next(error);
@@ -51,8 +53,9 @@ exports.getAllWorkouts = async (req, res, next) => {
 // @access Private
 exports.getOneWorkout = async (req, res, next) => {
   try {
+    const { userId } = req.user;
     const { workoutId } = req.params;
-    const { rows } = await pg.query('SELECT * FROM workout WHERE workout_id = $1', [workoutId]);
+    const { rows } = await pg.query('SELECT * FROM workout WHERE user_id = $1 AND workout_id = $2', [userId, workoutId]);
     res.status(200).json(rows);
   } catch (error) {
     next(error);

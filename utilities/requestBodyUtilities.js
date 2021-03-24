@@ -1,7 +1,128 @@
+function gatherTableUpdateableFields(fields) {
+  const updateableFields = [];
+  Object.keys(fields).forEach((field) => {
+    if (fields[field].updateable === true) {
+      updateableFields.push(field);
+    }
+  });
+  return updateableFields;
+}
+
 function validateRequestBody(req, tableFields, next) {
+  // PRIVATE FUNCTIONS
+  function gatherTableRequiredFields(fields) {
+    const requiredFields = [];
+    Object.keys(fields).forEach((field) => {
+      if (fields[field].required === true) {
+        requiredFields.push(field);
+      }
+    });
+    return requiredFields;
+  }
+
+  function gatherTableStringFields(fields) {
+    const stringFields = [];
+    Object.keys(fields).forEach((field) => {
+      if (fields[field].dataType === 'STRING') {
+        stringFields.push(field);
+      }
+    });
+    return stringFields;
+  }
+
+  function gatherTableStringFieldSizes(fields) {
+    const stringFieldSizes = {};
+    Object.entries(fields).forEach((field) => {
+      if (fields[field[0]].dataType === 'STRING') {
+        stringFieldSizes[field[0]] = field[1].fieldSize;
+      }
+    });
+    return stringFieldSizes;
+  }
+
+  function gatherTableIntFields(fields) {
+    const intFields = [];
+    Object.keys(fields).forEach((field) => {
+      if (fields[field].dataType === 'NUMBER') {
+        intFields.push(field);
+      }
+    });
+    return intFields;
+  }
+
+  function detectInvalidStringField(validStringList, requestBody) {
+    return validStringList.find(
+      (field) => field in requestBody && typeof requestBody[field] !== 'string',
+    );
+  }
+
+  function gatherStringFieldsFromBody(reqBody) {
+    const stringFields = {};
+    Object.entries(reqBody).forEach((field) => {
+      const key = field[0];
+      const value = field[1];
+      if (typeof (value) === 'string') {
+        stringFields[key] = value;
+      }
+    });
+    return stringFields;
+  }
+
+  function detectNonTrimmedStrings(stringFields, stringFieldsFromBody) {
+    return stringFields.find(
+      (field) => field in stringFieldsFromBody
+        && stringFieldsFromBody[field].trim() !== stringFieldsFromBody[field],
+    );
+  }
+
+  function detectStringTooSmall(fieldSizes, stringFieldsFromBody) {
+    return Object.keys(fieldSizes).find(
+      (field) => field in stringFieldsFromBody
+        && 'MIN' in fieldSizes[field]
+        && stringFieldsFromBody[field].length < fieldSizes[field].MIN,
+    );
+  }
+
+  function detectStringTooLarge(fieldSizes, stringFieldsFromBody) {
+    return Object.keys(fieldSizes).find(
+      (field) => field in stringFieldsFromBody
+        && 'MAX' in fieldSizes[field]
+        && stringFieldsFromBody[field].length > fieldSizes[field].MAX,
+    );
+  }
+
+  function detectInvalidIntField(validNumberList, requestBody) {
+    return validNumberList.find(
+      (field) => field in requestBody && typeof requestBody[field] !== 'number',
+    );
+  }
+
+  function gatherIntFieldsFromBody(reqBody) {
+    const intFields = {};
+    Object.entries(reqBody).forEach((field) => {
+      const key = field[0];
+      const value = field[1];
+      if (typeof (value) === 'number') {
+        intFields[key] = value;
+      }
+    });
+    return intFields;
+  }
+
+  function detectNegativeInt(intFieldsFromBody) {
+    let returnedField;
+    Object.entries(intFieldsFromBody).forEach((field) => {
+      const key = field[0];
+      const value = field[1];
+      if (value <= 0) {
+        returnedField = key;
+      }
+    });
+    return returnedField;
+  }
+
   const { method } = req;
   const requestBodyKeys = Object.keys(req.body);
-
   const validTableFields = Object.keys(tableFields);
   const requiredTableFields = gatherTableRequiredFields(tableFields);
   const updateableTableFields = gatherTableUpdateableFields(tableFields);
@@ -16,6 +137,7 @@ function validateRequestBody(req, tableFields, next) {
       error.status = 422;
       return next(error);
     }
+    return true;
   });
 
   // CHECK TO MAKE SURE REQUIRED FIELDS ARE IN THE REQ.BODY
@@ -38,6 +160,7 @@ function validateRequestBody(req, tableFields, next) {
         error.status = 422;
         return next(error);
       }
+      return true;
     });
   }
 
@@ -114,120 +237,7 @@ function validateRequestBody(req, tableFields, next) {
     error.status = 422;
     return next(error);
   }
-
-  // PRIVATE FUNCTIONS
-  function gatherTableRequiredFields(tableFields) {
-    const requiredFields = [];
-    for (const property in tableFields) {
-      if (tableFields[property].required === true) {
-        requiredFields.push(property);
-      }
-    }
-    return requiredFields;
-  }
-
-  function gatherTableStringFields(tableFields) {
-    const stringFields = [];
-    for (const property in tableFields) {
-      if (tableFields[property].dataType === 'STRING') {
-        stringFields.push(property);
-      }
-    }
-    return stringFields;
-  }
-
-  function gatherTableStringFieldSizes(tableFields) {
-    const stringFieldSizes = {};
-    for (const [key, value] of Object.entries(tableFields)) {
-      if (tableFields[key].dataType === 'STRING') {
-        stringFieldSizes[key] = value.fieldSize;
-      }
-    }
-    return stringFieldSizes;
-  }
-
-  function gatherTableIntFields(tableFields) {
-    const intFields = [];
-    for (const property in tableFields) {
-      if (tableFields[property].dataType === 'NUMBER') {
-        intFields.push(property);
-      }
-    }
-    return intFields;
-  }
-
-  function detectInvalidStringField(validStringList, requestBody) {
-    return validStringList.find(
-      (field) => field in requestBody && typeof requestBody[field] !== 'string',
-    );
-  }
-
-  function gatherStringFieldsFromBody(reqBody) {
-    const stringFields = {};
-    for (const [key, value] of Object.entries(reqBody)) {
-      if (typeof value === 'string') {
-        stringFields[key] = value;
-      }
-    }
-    return stringFields;
-  }
-
-  function detectNonTrimmedStrings(stringFields, stringFieldsFromBody) {
-    return stringFields.find(
-      (field) => field in stringFieldsFromBody
-        && stringFieldsFromBody[field].trim() !== stringFieldsFromBody[field],
-    );
-  }
-
-  function detectStringTooSmall(fieldSizes, stringFieldsFromBody) {
-    return Object.keys(fieldSizes).find(
-      (field) => field in stringFieldsFromBody
-        && 'MIN' in fieldSizes[field]
-        && stringFieldsFromBody[field].length < fieldSizes[field].MIN,
-    );
-  }
-
-  function detectStringTooLarge(fieldSizes, stringFieldsFromBody) {
-    return Object.keys(fieldSizes).find(
-      (field) => field in stringFieldsFromBody
-        && 'MAX' in fieldSizes[field]
-        && stringFieldsFromBody[field].length > fieldSizes[field].MAX,
-    );
-  }
-
-  function detectInvalidIntField(validNumberList, requestBody) {
-    return validNumberList.find(
-      (field) => field in requestBody && typeof requestBody[field] !== 'number',
-    );
-  }
-
-  function gatherIntFieldsFromBody(reqBody) {
-    const intFields = {};
-    for (const [key, value] of Object.entries(reqBody)) {
-      if (typeof value === 'number') {
-        intFields[key] = value;
-      }
-    }
-    return intFields;
-  }
-
-  function detectNegativeInt(intFieldsFromBody) {
-    for (const [key, value] of Object.entries(intFieldsFromBody)) {
-      if (value <= 0) {
-        return key;
-      }
-    }
-  }
-}
-
-function gatherTableUpdateableFields(tableFields) {
-  const updateableFields = [];
-  for (const property in tableFields) {
-    if (tableFields[property].updateable === true) {
-      updateableFields.push(property);
-    }
-  }
-  return updateableFields;
+  return false;
 }
 
 module.exports = {
