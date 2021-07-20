@@ -10,7 +10,7 @@ module.exports = {
 
   DB_CLIENT: process.env.DB_CLIENT || 'pg',
   DB_HOST: process.env.DB_HOST || 'localhost',
-  DB_USERNAME: process.env.DB_USERNAME || 'apuhl',
+  DB_USERNAME: process.env.DB_USERNAME || 'postgres',
   DB_DATABASE: process.env.DB_DATABASE || 'workout_tracker',
   DB_TEST_DATABASE: process.env.DB_TEST_DATABASE || 'workout_tracker_test',
   DB_PASSWORD: process.env.DB_PASSWORD,

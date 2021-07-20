@@ -38,10 +38,8 @@ exports.createWorkout = async (req, res, next) => {
 // @route Get /api/workout
 // @access Private
 exports.getAllWorkouts = async (req, res, next) => {
-  const { userId } = req.user;
-
   try {
-    const { rows } = await pg.query('SELECT * FROM workout WHERE user_id = $1', [userId]);
+    const { rows } = await pg.query('SELECT * FROM workout');
     res.status(200).json(rows);
   } catch (error) {
     next(error);
