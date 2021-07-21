@@ -19,18 +19,19 @@ exports.createUser = async (req, res, next) => {
     validateRequestBody(req, userTableFields, next);
 
     const {
-      username, password,
+      username, password, roleId,
     } = req.body;
 
     const userExists = await pg.query('SELECT * FROM public.user WHERE username = $1', [username]);
     if (userExists.rows.length === 0) {
-      const query = 'INSERT INTO public.user(username, password) VALUES($1, $2) RETURNING *';
+      const query = 'INSERT INTO public.user(username, password, role_id) VALUES($1, $2, $3) RETURNING *';
       const hashedPassword = await bcrypt.hash(password, 10);
-      const newUser = [username, hashedPassword];
+      const newUser = [username, hashedPassword, roleId];
       const { rows } = await pg.query(query, newUser);
       const result = rows[0];
       const response = {
         user_id: result.user_id,
+        role_id: result.role_id,
         username: result.username,
         reset_token: result.reset_token,
         reset_token_expiration: result.reset_token_expiration,

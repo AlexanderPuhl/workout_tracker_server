@@ -5,6 +5,12 @@ const userTableFields = {
     dataType: 'NUMBER',
     fieldSize: 'null',
   },
+  role_id: {
+    required: true,
+    updateable: true,
+    dataType: 'NUMBER',
+    fieldSize: 'null',
+  },
   username: {
     required: true,
     updateable: false,

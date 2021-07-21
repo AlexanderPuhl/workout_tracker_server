@@ -1,7 +1,7 @@
 exports.up = function (knex) {
   return knex.schema.createTable('user', (table) => {
     table.increments('user_id').unique().notNullable();
-    table.integer('role_id').references('role_id').inTable('role');
+    table.integer('role_id').notNullable().references('role_id').inTable('role');
     table.string('username', 35).notNullable();
     table.string('password', 255).notNullable();
     table.dateTime('last_login').defaultTo(knex.fn.now());
