@@ -118,7 +118,7 @@ exports.deleteWorkoutLog = async (req, res, next) => {
     const { userId } = req.user;
     const { workoutLogId } = req.params;
 
-    // //CHECK TO MAKE SURE WORKOUT_ID IS A NUMBER
+    // //CHECK TO MAKE SURE WORKOUT_LOG_ID IS A NUMBER
     if (Number.isNaN(workoutLogId)) {
       const error = new Error('Invalid workout log id.');
       error.status = 400;

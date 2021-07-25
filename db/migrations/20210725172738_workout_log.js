@@ -1,3 +1,4 @@
+/* eslint-disable func-names */
 exports.up = function (knex) {
   return knex.schema.createTable('workout_log', (table) => {
     table.increments('workout_log_id').unique().notNullable();
