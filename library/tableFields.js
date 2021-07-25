@@ -1,4 +1,4 @@
-const userTableFields = {
+const userFields = {
   user_id: {
     required: false,
     updateable: false,
@@ -55,24 +55,36 @@ const userTableFields = {
   },
 };
 
-const workoutTableFields = {
-  workout_id: {
+const exerciseFields = {
+  exercise_id: {
     required: false,
     updateable: false,
     dataType: 'NUMBER',
     fieldSize: 'null',
   },
+  user_id: {
+    required: false,
+    updateable: false,
+    dataType: 'NUMBER',
+    fieldSize: 'null',
+  },
+  default: {
+    required: false,
+    updateable: false,
+    dataType: 'BOOLEAN',
+    fieldSize: 'null',
+  },
+  exercise: {
+    required: true,
+    updateable: true,
+    dataType: 'STRING',
+    fieldSize: { MIN: 1, MAX: 255 },
+  },
   focus: {
     required: true,
     updateable: true,
     dataType: 'STRING',
-    fieldSize: { MIN: 1, MAX: 100 },
-  },
-  workout: {
-    required: true,
-    updateable: true,
-    dataType: 'STRING',
-    fieldSize: { MIN: 1, MAX: 100 },
+    fieldSize: { MIN: 1, MAX: 255 },
   },
   image_url: {
     required: false,
@@ -94,7 +106,7 @@ const workoutTableFields = {
   },
 };
 
-const workoutLogTableFields = {
+const workoutLogFields = {
   workout_log_id: {
     required: false,
     updateable: false,
@@ -104,132 +116,6 @@ const workoutLogTableFields = {
   user_id: {
     required: false,
     updateable: false,
-    dataType: 'NUMBER',
-    fieldSize: 'null',
-  },
-  workout_id: {
-    required: true,
-    updateable: true,
-    dataType: 'NUMBER',
-    fieldSize: 'null',
-  },
-  set_one_reps: {
-    required: false,
-    updateable: true,
-    dataType: 'NUMBER',
-    fieldSize: 'null',
-  },
-  set_one_weights: {
-    required: false,
-    updateable: true,
-    dataType: 'NUMBER',
-    fieldSize: 'null',
-  },
-  set_two_reps: {
-    required: false,
-    updateable: true,
-    dataType: 'NUMBER',
-    fieldSize: 'null',
-  },
-  set_two_weights: {
-    required: false,
-    updateable: true,
-    dataType: 'NUMBER',
-    fieldSize: 'null',
-  },
-  set_three_reps: {
-    required: false,
-    updateable: true,
-    dataType: 'NUMBER',
-    fieldSize: 'null',
-  },
-  set_three_weights: {
-    required: false,
-    updateable: true,
-    dataType: 'NUMBER',
-    fieldSize: 'null',
-  },
-  set_four_reps: {
-    required: false,
-    updateable: true,
-    dataType: 'NUMBER',
-    fieldSize: 'null',
-  },
-  set_four_weights: {
-    required: false,
-    updateable: true,
-    dataType: 'NUMBER',
-    fieldSize: 'null',
-  },
-  set_five_reps: {
-    required: false,
-    updateable: true,
-    dataType: 'NUMBER',
-    fieldSize: 'null',
-  },
-  set_five_weights: {
-    required: false,
-    updateable: true,
-    dataType: 'NUMBER',
-    fieldSize: 'null',
-  },
-  set_six_reps: {
-    required: false,
-    updateable: true,
-    dataType: 'NUMBER',
-    fieldSize: 'null',
-  },
-  set_six_weights: {
-    required: false,
-    updateable: true,
-    dataType: 'NUMBER',
-    fieldSize: 'null',
-  },
-  set_seven_reps: {
-    required: false,
-    updateable: true,
-    dataType: 'NUMBER',
-    fieldSize: 'null',
-  },
-  set_seven_weights: {
-    required: false,
-    updateable: true,
-    dataType: 'NUMBER',
-    fieldSize: 'null',
-  },
-  set_eight_reps: {
-    required: false,
-    updateable: true,
-    dataType: 'NUMBER',
-    fieldSize: 'null',
-  },
-  set_eight_weights: {
-    required: false,
-    updateable: true,
-    dataType: 'NUMBER',
-    fieldSize: 'null',
-  },
-  set_nine_reps: {
-    required: false,
-    updateable: true,
-    dataType: 'NUMBER',
-    fieldSize: 'null',
-  },
-  set_nine_weights: {
-    required: false,
-    updateable: true,
-    dataType: 'NUMBER',
-    fieldSize: 'null',
-  },
-  set_ten_reps: {
-    required: false,
-    updateable: true,
-    dataType: 'NUMBER',
-    fieldSize: 'null',
-  },
-  set_ten_weights: {
-    required: false,
-    updateable: true,
     dataType: 'NUMBER',
     fieldSize: 'null',
   },
@@ -254,7 +140,7 @@ const workoutLogTableFields = {
 };
 
 module.exports = {
-  userTableFields,
-  workoutTableFields,
-  workoutLogTableFields,
+  userFields,
+  exerciseFields,
+  workoutLogFields,
 };

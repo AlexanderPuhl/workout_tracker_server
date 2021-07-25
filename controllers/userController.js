@@ -2,21 +2,21 @@ const bcrypt = require('bcryptjs');
 const knex = require('../db/knex');
 const pg = require('../db/pg');
 
-const { userTableFields } = require('../library/tableFields');
+const { userFields } = require('../library/tableFields');
 const { createAuthToken } = require('../utilities/jwtUtilities');
 const {
   validateRequestBody,
   gatherTableUpdateableFields,
 } = require('../utilities/requestBodyUtilities');
 
-const updateableUserFields = gatherTableUpdateableFields(userTableFields);
+const updateableUserFields = gatherTableUpdateableFields(userFields);
 
 // @desc Create in user
 // @route POST /api/user/create
 // @access Public
 exports.createUser = async (req, res, next) => {
   try {
-    validateRequestBody(req, userTableFields, next);
+    validateRequestBody(req, userFields, next);
 
     const {
       username, password, roleId,
@@ -73,7 +73,7 @@ exports.refreshToken = (req, res, _next) => {
 // @route POST /api/user/update
 // @access Private
 exports.updateUser = (req, res, next) => {
-  validateRequestBody(req, userTableFields, next);
+  validateRequestBody(req, userFields, next);
 
   const { userId } = req.user;
   const toUpdate = {};

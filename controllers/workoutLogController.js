@@ -1,20 +1,20 @@
 const knex = require('../db/knex');
 const pg = require('../db/pg');
 
-const { workoutLogTableFields } = require('../library/tableFields');
+const { workoutLogFields } = require('../library/tableFields');
 const {
   validateRequestBody,
   gatherTableUpdateableFields,
 } = require('../utilities/requestBodyUtilities');
 
-const updateableWorkoutLogFields = gatherTableUpdateableFields(workoutLogTableFields);
+const updateableWorkoutLogFields = gatherTableUpdateableFields(workoutLogFields);
 
 // @desc Create a workout log
 // @route POST /api/workoutlog
 // @access Private
 exports.createWorkoutLog = async (req, res, next) => {
   try {
-    validateRequestBody(req, workoutLogTableFields, next);
+    validateRequestBody(req, workoutLogFields, next);
 
     const { userId } = req.user;
     const newWorkoutLog = { user_id: userId };
@@ -74,7 +74,7 @@ exports.getOneWorkoutLog = async (req, res, next) => {
 // @access Private
 exports.updateWorkoutLog = (req, res, next) => {
   try {
-    validateRequestBody(req, workoutLogTableFields, next);
+    validateRequestBody(req, workoutLogFields, next);
 
     const { userId } = req.user;
     const { workoutLogId } = req.params;

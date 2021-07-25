@@ -1,9 +1,9 @@
 const userController = require('./userController.js');
-const workoutController = require('./workoutController');
+const exerciseController = require('./exerciseController');
 const workoutLogController = require('./workoutLogController');
 
 module.exports = {
   userController,
-  workoutController,
+  exerciseController,
   workoutLogController,
 };
