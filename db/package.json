@@ -1,0 +1,12 @@
+{
+  "name": "reset-database",
+  "description": "When you run the start command, it's meant to reset the database by dropping tables, re-creating the tables and then seeding them w/ data.",
+  "main": "drop_tables.js",
+  "author": "Alexander Puhl",
+  "scripts": {
+    "start": "npm run dropTables && npm run createTables && npm run seedDatabase",
+    "dropTables": "node drop_tables.js",
+    "createTables": "knex migrate:latest",
+    "seedDatabase": "knex seed:run"
+  }
+}
