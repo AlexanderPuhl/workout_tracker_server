@@ -17,6 +17,8 @@ const jwtAuth = passport.authenticate('jwt', {
 
 router.use('/api/user', require('./userRoute'));
 router.use('/api/exercise', jwtAuth, require('./exerciseRoute'));
+router.use('/api/set', jwtAuth, require('./setRoute'));
+router.use('/api/workout', jwtAuth, require('./workoutRoute'));
 router.use('/api/workoutlog', jwtAuth, require('./workoutLogRoute'));
 
 module.exports = router;

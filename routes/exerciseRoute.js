@@ -8,7 +8,7 @@ router.route('/')
   .get(exerciseController.getAllExercises)
   .post(exerciseController.createExercise);
 
-router.route('/:workoutId')
+router.route('/:exerciseId')
   .get(exerciseController.getOneExercise)
   .put(exerciseController.updateExercise)
   .delete(exerciseController.deleteExercise);

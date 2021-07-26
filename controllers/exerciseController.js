@@ -51,9 +51,8 @@ exports.getAllExercises = async (req, res, next) => {
 // @access Private
 exports.getOneExercise = async (req, res, next) => {
   try {
-    const { userId } = req.user;
     const { exerciseId } = req.params;
-    const { rows } = await pg.query('SELECT * FROM exercise WHERE user_id = $1 AND exercise_id = $2', [userId, exerciseId]);
+    const { rows } = await pg.query('SELECT * FROM exercise WHERE exercise_id = $1', [exerciseId]);
     res.status(200).json(rows);
   } catch (error) {
     next(error);

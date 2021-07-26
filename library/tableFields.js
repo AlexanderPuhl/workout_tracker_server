@@ -1,3 +1,138 @@
+const exerciseFields = {
+  exercise_id: {
+    required: false,
+    updateable: false,
+    dataType: 'NUMBER',
+    fieldSize: 'null',
+  },
+  user_id: {
+    required: false,
+    updateable: false,
+    dataType: 'NUMBER',
+    fieldSize: 'null',
+  },
+  default: {
+    required: false,
+    updateable: false,
+    dataType: 'BOOLEAN',
+    fieldSize: 'null',
+  },
+  exercise: {
+    required: true,
+    updateable: true,
+    dataType: 'STRING',
+    fieldSize: { MIN: 1, MAX: 255 },
+  },
+  focus: {
+    required: true,
+    updateable: true,
+    dataType: 'STRING',
+    fieldSize: { MIN: 1, MAX: 255 },
+  },
+  image_url: {
+    required: false,
+    updateable: true,
+    dataType: 'STRING',
+    fieldSize: { MIN: 1, MAX: 255 },
+  },
+  created_on: {
+    required: false,
+    updateable: false,
+    dataType: 'DATETIME',
+    fieldSize: 'null',
+  },
+  modified_on: {
+    required: false,
+    updateable: true,
+    dataType: 'DATETIME',
+    fieldSize: 'null',
+  },
+};
+
+const roleFields = {
+  rold_id: {
+    required: false,
+    updateable: false,
+    dataType: 'NUMBER',
+    fieldSize: 'null',
+  },
+  name: {
+    required: true,
+    updateable: true,
+    dataType: 'STRING',
+    fieldSize: { MIN: 1, MAX: 255 },
+  },
+  created_on: {
+    required: false,
+    updateable: false,
+    dataType: 'DATETIME',
+    fieldSize: 'null',
+  },
+  modified_on: {
+    required: false,
+    updateable: true,
+    dataType: 'DATETIME',
+    fieldSize: 'null',
+  },
+};
+
+const setFields = {
+  set_id: {
+    required: false,
+    updateable: false,
+    dataType: 'NUMBER',
+    fieldSize: 'null',
+  },
+  user_id: {
+    required: false,
+    updateable: false,
+    dataType: 'NUMBER',
+    fieldSize: 'null',
+  },
+  workout_id: {
+    required: false,
+    updateable: false,
+    dataType: 'NUMBER',
+    fieldSize: 'null',
+  },
+  number_of_sets: {
+    required: true,
+    updateable: true,
+    dataType: 'NUMBER',
+    fieldSize: 'null',
+  },
+  number_of_reps: {
+    required: true,
+    updateable: true,
+    dataType: 'NUMBER',
+    fieldSize: 'null',
+  },
+  weight: {
+    required: true,
+    updateable: true,
+    dataType: 'NUMBER',
+    fieldSize: 'null',
+  },
+  note: {
+    required: false,
+    updateable: true,
+    dataType: 'STRING',
+    fieldSize: { MIN: 1, MAX: 255 },
+  },
+  created_on: {
+    required: false,
+    updateable: false,
+    dataType: 'DATETIME',
+    fieldSize: 'null',
+  },
+  modified_on: {
+    required: false,
+    updateable: true,
+    dataType: 'DATETIME',
+    fieldSize: 'null',
+  },
+};
+
 const userFields = {
   user_id: {
     required: false,
@@ -55,8 +190,8 @@ const userFields = {
   },
 };
 
-const exerciseFields = {
-  exercise_id: {
+const workoutFields = {
+  workout_id: {
     required: false,
     updateable: false,
     dataType: 'NUMBER',
@@ -68,25 +203,19 @@ const exerciseFields = {
     dataType: 'NUMBER',
     fieldSize: 'null',
   },
-  default: {
-    required: false,
+  workout_log_id: {
+    required: true,
     updateable: false,
-    dataType: 'BOOLEAN',
+    dataType: 'NUMBER',
     fieldSize: 'null',
   },
-  exercise: {
+  exercise_id: {
     required: true,
     updateable: true,
-    dataType: 'STRING',
-    fieldSize: { MIN: 1, MAX: 255 },
+    dataType: 'NUMBER',
+    fieldSize: 'null',
   },
-  focus: {
-    required: true,
-    updateable: true,
-    dataType: 'STRING',
-    fieldSize: { MIN: 1, MAX: 255 },
-  },
-  image_url: {
+  note: {
     required: false,
     updateable: true,
     dataType: 'STRING',
@@ -140,7 +269,10 @@ const workoutLogFields = {
 };
 
 module.exports = {
-  userFields,
   exerciseFields,
+  roleFields,
+  setFields,
+  userFields,
+  workoutFields,
   workoutLogFields,
 };
