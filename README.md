@@ -22,8 +22,8 @@ This is the API for the workout tracker app.
 1. We will be using Knex to setup the tables and seed some data, we will need to install knex globally if you don't have it already.
    1. You can check what packages are globally installed on your PC with [npm list -g --depth 0]
    1. Install knex globally with [npm i -g knex]
-   1. cd into the /db folder
-   1. Run the command [knex migrate:latest] to create the database tables for booklist
+   1. cd into the /db folder.
+   1. Run the command [knex migrate:latest] to create the database tables.
    1. Run the command [knex seed:run] to seed the tables with seed data.
 
 ## Resetting a database
