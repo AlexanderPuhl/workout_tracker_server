@@ -70,12 +70,9 @@ exports.refreshToken = (req, res, _next) => {
 // Get user data
 exports.getUserData = async (req, res, next) => {
   try {
-    console.log(req.user);
-    const { userId, username } = req.user;
-    // console.log(userId);
-    const { row } = await pg.query('SELECT * FROM public.user WHERE username = $1', [username]);
-    console.log(row);
-    res.status(200).json(row);
+    const { userId } = req.user;
+    const { rows } = await pg.query('SELECT username FROM public.user WHERE user_id = $1', [userId]);
+    res.status(200).json(rows);
   } catch (error) {
     next(error);
   }
