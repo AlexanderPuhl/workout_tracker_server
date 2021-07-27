@@ -67,6 +67,20 @@ exports.refreshToken = (req, res, _next) => {
   res.json({ authToken });
 };
 
+// Get user data
+exports.getUserData = async (req, res, next) => {
+  try {
+    console.log(req.user);
+    const { userId, username } = req.user;
+    // console.log(userId);
+    const { row } = await pg.query('SELECT * FROM public.user WHERE username = $1', [username]);
+    console.log(row);
+    res.status(200).json(row);
+  } catch (error) {
+    next(error);
+  }
+};
+
 // @desc Update a user
 // @route POST /api/user/update
 // @access Private
