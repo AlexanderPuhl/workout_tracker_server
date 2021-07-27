@@ -18,6 +18,7 @@ const jwtAuth = passport.authenticate('jwt', {
   failWithError: true,
 });
 
+router.route('/get_data').get(jwtAuth, userController.getUserData);
 router.route('/create').post(userController.createUser);
 router.route('/login').post(localAuth, userController.loginUser);
 router.route('/refresh').post(jwtAuth, userController.refreshToken);

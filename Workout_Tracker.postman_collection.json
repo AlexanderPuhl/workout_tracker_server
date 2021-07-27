@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "3eaa7eb6-07fd-4ff2-aefd-b5209c77eeae",
+		"_postman_id": "2b94b6fd-132d-40ca-beae-bb116056c3f2",
 		"name": "Workout_Tracker",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
@@ -20,7 +20,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n\t\"username\": \"test\",\n\t\"password\": \"thinkful123\",\n    \"roleId\": 1\n}"
+							"raw": "{\n\t\"username\": \"test\",\n\t\"password\": \"thinkful123\"\n}"
 						},
 						"url": {
 							"raw": "localhost:8080/api/user/create",
@@ -49,7 +49,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n\t\"username\": \"test\",\n\t\"password\": \"thinkful123\"\n}"
+							"raw": "{\n\t\"username\": \"chris\",\n\t\"password\": \"thinkful123\"\n}"
 						},
 						"url": {
 							"raw": "localhost:8080/api/user/login",
@@ -74,7 +74,7 @@
 							"bearer": [
 								{
 									"key": "token",
-									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjUsInVzZXJuYW1lIjoidGVzdCIsImlhdCI6MTYyNzI1ODc2MzcxOSwiZXhwIjoxNjI3MjU4ODUwMTE5fQ.PubOjnNHySSilcUXZoxorw0eL8gDl8RgklEAAw8WbRo",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEsInVzZXJuYW1lIjoiYWxleCIsImlhdCI6MTYxNjUyOTg3MjMyMCwiZXhwIjoxNjE2NTI5OTU4NzIwfQ.7688UKZKNshHDo6XCfi9iG9B1KuUHrlqqgRFxSkY7lg",
 									"type": "string"
 								}
 							]
@@ -113,7 +113,7 @@
 							"bearer": [
 								{
 									"key": "token",
-									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjUsInVzZXJuYW1lIjoidGVzdCIsImlhdCI6MTYyNzI1ODc3NTI0MywiZXhwIjoxNjI3MjU4ODYxNjQzfQ.WTWQqmCvlxyf5VlppBkesIVp4S2dmhV86G8hLD53zGA",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEsInVzZXJuYW1lIjoiYWxleCIsImlhdCI6MTYxNjQ2NTA1MTYxMiwiZXhwIjoxNjE2NDY1MTM4MDEyfQ.3unHYDNjeRZKLWe9gjXIBI7KRGBcq1L-5c313KmCC_c",
 									"type": "string"
 								}
 							]
@@ -182,21 +182,58 @@
 						}
 					},
 					"response": []
-				}
-			]
-		},
-		{
-			"name": "Exercise Route",
-			"item": [
+				},
 				{
-					"name": "Create Exercise",
+					"name": "Get User Data",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
 					"request": {
 						"auth": {
 							"type": "bearer",
 							"bearer": [
 								{
 									"key": "token",
-									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjQsInVzZXJuYW1lIjoidGVzdCIsImlhdCI6MTYyNzI1NTM3MTM2NiwiZXhwIjoxNjI3MjU1NDU3NzY2fQ.XXb2r6NQ6U_Y-8SDLpPdA7PDwZrw1fZ7XiD4fVBrkPA",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjMsInVzZXJuYW1lIjoiY2hyaXMiLCJpYXQiOjE2MjczNDgxNDIzOTUsImV4cCI6MTYyNzM0ODIyODc5NX0.J71XOVP58iBdAbmwVbcocn5B4G6Bk6Q6gV_rsrd6sCw",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "localhost:8080/api/user/get_data",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"user",
+								"get_data"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Workout Route",
+			"item": [
+				{
+					"name": "Create Workout",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEsInVzZXJuYW1lIjoiYWxleCIsImlhdCI6MTYxNjUzMTkzNDI2MiwiZXhwIjoxNjE2NTMyMDIwNjYyfQ.uJy-dFCqkUGYm25-cz8i5fef71Kd7klZha9HKT0Gfe0",
 									"type": "string"
 								}
 							]
@@ -205,7 +242,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"focus\":\"test\",\r\n    \"exercise\":\"test\"\r\n}",
+							"raw": "{\r\n    \"focus\":\"Legs\",\r\n    \"workout\":\"Squats\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -213,21 +250,21 @@
 							}
 						},
 						"url": {
-							"raw": "localhost:8080/api/exercise",
+							"raw": "localhost:8080/api/workout",
 							"host": [
 								"localhost"
 							],
 							"port": "8080",
 							"path": [
 								"api",
-								"exercise"
+								"workout"
 							]
 						}
 					},
 					"response": []
 				},
 				{
-					"name": "Get All Exercises",
+					"name": "Get All Workouts",
 					"protocolProfileBehavior": {
 						"disableBodyPruning": true
 					},
@@ -237,7 +274,7 @@
 							"bearer": [
 								{
 									"key": "token",
-									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjQsInVzZXJuYW1lIjoidGVzdCIsImlhdCI6MTYyNzI1NTM3MTM2NiwiZXhwIjoxNjI3MjU1NDU3NzY2fQ.XXb2r6NQ6U_Y-8SDLpPdA7PDwZrw1fZ7XiD4fVBrkPA",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEsInVzZXJuYW1lIjoiYWxleCIsImlhdCI6MTYxNjUzMzcyNTc0NCwiZXhwIjoxNjE2NTMzODEyMTQ0fQ.7sbo05B3n7SVoNfijL6C-XmhuTg7AARUvyHBlRFBw78",
 									"type": "string"
 								}
 							]
@@ -254,21 +291,21 @@
 							}
 						},
 						"url": {
-							"raw": "localhost:8080/api/exercise",
+							"raw": "localhost:8080/api/workout",
 							"host": [
 								"localhost"
 							],
 							"port": "8080",
 							"path": [
 								"api",
-								"exercise"
+								"workout"
 							]
 						}
 					},
 					"response": []
 				},
 				{
-					"name": "Get Exercise",
+					"name": "Get One Workout",
 					"protocolProfileBehavior": {
 						"disableBodyPruning": true
 					},
@@ -278,7 +315,7 @@
 							"bearer": [
 								{
 									"key": "token",
-									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjQsInVzZXJuYW1lIjoidGVzdCIsImlhdCI6MTYyNzI1NTM3MTM2NiwiZXhwIjoxNjI3MjU1NDU3NzY2fQ.XXb2r6NQ6U_Y-8SDLpPdA7PDwZrw1fZ7XiD4fVBrkPA",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEsInVzZXJuYW1lIjoiYWxleCIsImlhdCI6MTYxNjUzMTkzNDI2MiwiZXhwIjoxNjE2NTMyMDIwNjYyfQ.uJy-dFCqkUGYm25-cz8i5fef71Kd7klZha9HKT0Gfe0",
 									"type": "string"
 								}
 							]
@@ -295,14 +332,14 @@
 							}
 						},
 						"url": {
-							"raw": "localhost:8080/api/exercise/1",
+							"raw": "localhost:8080/api/workout/1",
 							"host": [
 								"localhost"
 							],
 							"port": "8080",
 							"path": [
 								"api",
-								"exercise",
+								"workout",
 								"1"
 							]
 						}
@@ -310,14 +347,14 @@
 					"response": []
 				},
 				{
-					"name": "Update Exercise",
+					"name": "Update A Workout",
 					"request": {
 						"auth": {
 							"type": "bearer",
 							"bearer": [
 								{
 									"key": "token",
-									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjQsInVzZXJuYW1lIjoidGVzdCIsImlhdCI6MTYyNzI1NTM3MTM2NiwiZXhwIjoxNjI3MjU1NDU3NzY2fQ.XXb2r6NQ6U_Y-8SDLpPdA7PDwZrw1fZ7XiD4fVBrkPA",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEsInVzZXJuYW1lIjoiYWxleCIsImlhdCI6MTYxNjUzMTkzNDI2MiwiZXhwIjoxNjE2NTMyMDIwNjYyfQ.uJy-dFCqkUGYm25-cz8i5fef71Kd7klZha9HKT0Gfe0",
 									"type": "string"
 								}
 							]
@@ -326,7 +363,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"exercise\":\"SQUATS!!!\"\r\n}",
+							"raw": "{\r\n    \"workout\":\"SQUATS!!!\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -334,22 +371,22 @@
 							}
 						},
 						"url": {
-							"raw": "localhost:8080/api/exercise/11",
+							"raw": "localhost:8080/api/workout/9",
 							"host": [
 								"localhost"
 							],
 							"port": "8080",
 							"path": [
 								"api",
-								"exercise",
-								"11"
+								"workout",
+								"9"
 							]
 						}
 					},
 					"response": []
 				},
 				{
-					"name": "Delete Exercise",
+					"name": "Delete A Workout",
 					"request": {
 						"auth": {
 							"type": "bearer",
@@ -373,14 +410,14 @@
 							}
 						},
 						"url": {
-							"raw": "localhost:8080/api/exercise/11",
+							"raw": "localhost:8080/api/workout/11",
 							"host": [
 								"localhost"
 							],
 							"port": "8080",
 							"path": [
 								"api",
-								"exercise",
+								"workout",
 								"11"
 							]
 						}
@@ -393,14 +430,14 @@
 			"name": "Workout Logs Route",
 			"item": [
 				{
-					"name": "Create Workout Log",
+					"name": "Create A Workout Log",
 					"request": {
 						"auth": {
 							"type": "bearer",
 							"bearer": [
 								{
 									"key": "token",
-									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjQsInVzZXJuYW1lIjoidGVzdCIsImlhdCI6MTYyNzI1NTM3MTM2NiwiZXhwIjoxNjI3MjU1NDU3NzY2fQ.XXb2r6NQ6U_Y-8SDLpPdA7PDwZrw1fZ7XiD4fVBrkPA",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjIsInVzZXJuYW1lIjoiY2hyaXMiLCJpYXQiOjE2MTY1MzU5MzcxOTQsImV4cCI6MTYxNjUzNjAyMzU5NH0._NNsfXloydnFeX9cmfUJmHQxVXk1CHOV3mzBd9t34bI",
 									"type": "string"
 								}
 							]
@@ -409,7 +446,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"note\": \"Test\"\r\n}",
+							"raw": "{\r\n    \"workout_id\": 1,\r\n    \"set_one_reps\": 5,\r\n    \"set_one_weights\": 45,\r\n    \"set_two_reps\": 5,\r\n    \"set_two_weights\": 135,\r\n    \"set_three_reps\": 3,\r\n    \"set_three_weights\": 155,\r\n    \"set_four_reps\": 2,\r\n    \"set_four_weights\": 175,\r\n    \"set_five_reps\": 5,\r\n    \"set_five_weights\": 190,\r\n    \"set_six_reps\": 5,\r\n    \"set_six_weights\": 190,\r\n    \"set_seven_reps\": 5,\r\n    \"set_seven_weights\": 190,\r\n    \"note\": \"Felt great!\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -441,7 +478,7 @@
 							"bearer": [
 								{
 									"key": "token",
-									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjQsInVzZXJuYW1lIjoidGVzdCIsImlhdCI6MTYyNzI1NTM3MTM2NiwiZXhwIjoxNjI3MjU1NDU3NzY2fQ.XXb2r6NQ6U_Y-8SDLpPdA7PDwZrw1fZ7XiD4fVBrkPA",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjIsInVzZXJuYW1lIjoiY2hyaXMiLCJpYXQiOjE2MTY1MzU5MzcxOTQsImV4cCI6MTYxNjUzNjAyMzU5NH0._NNsfXloydnFeX9cmfUJmHQxVXk1CHOV3mzBd9t34bI",
 									"type": "string"
 								}
 							]
@@ -472,7 +509,7 @@
 					"response": []
 				},
 				{
-					"name": "Get Workout Log",
+					"name": "Get A Workout Log",
 					"protocolProfileBehavior": {
 						"disableBodyPruning": true
 					},
@@ -482,7 +519,7 @@
 							"bearer": [
 								{
 									"key": "token",
-									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjQsInVzZXJuYW1lIjoidGVzdCIsImlhdCI6MTYyNzI1NTM3MTM2NiwiZXhwIjoxNjI3MjU1NDU3NzY2fQ.XXb2r6NQ6U_Y-8SDLpPdA7PDwZrw1fZ7XiD4fVBrkPA",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjIsInVzZXJuYW1lIjoiY2hyaXMiLCJpYXQiOjE2MTY1MzU5MzcxOTQsImV4cCI6MTYxNjUzNjAyMzU5NH0._NNsfXloydnFeX9cmfUJmHQxVXk1CHOV3mzBd9t34bI",
 									"type": "string"
 								}
 							]
@@ -499,7 +536,7 @@
 							}
 						},
 						"url": {
-							"raw": "localhost:8080/api/workoutlog/3",
+							"raw": "localhost:8080/api/workoutlog/5",
 							"host": [
 								"localhost"
 							],
@@ -507,21 +544,21 @@
 							"path": [
 								"api",
 								"workoutlog",
-								"3"
+								"5"
 							]
 						}
 					},
 					"response": []
 				},
 				{
-					"name": "Update Workout Log",
+					"name": "Update A Workout Log",
 					"request": {
 						"auth": {
 							"type": "bearer",
 							"bearer": [
 								{
 									"key": "token",
-									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjQsInVzZXJuYW1lIjoidGVzdCIsImlhdCI6MTYyNzI1NTM3MTM2NiwiZXhwIjoxNjI3MjU1NDU3NzY2fQ.XXb2r6NQ6U_Y-8SDLpPdA7PDwZrw1fZ7XiD4fVBrkPA",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjIsInVzZXJuYW1lIjoiY2hyaXMiLCJpYXQiOjE2MTY1MzU5MzcxOTQsImV4cCI6MTYxNjUzNjAyMzU5NH0._NNsfXloydnFeX9cmfUJmHQxVXk1CHOV3mzBd9t34bI",
 									"type": "string"
 								}
 							]
@@ -530,7 +567,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"note\": \":(\"\r\n}",
+							"raw": "{\r\n    \"note\": \":(\",\r\n    \"invalidField\": \"blah\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -538,7 +575,7 @@
 							}
 						},
 						"url": {
-							"raw": "localhost:8080/api/workoutlog/3",
+							"raw": "localhost:8080/api/workoutlog/5",
 							"host": [
 								"localhost"
 							],
@@ -546,21 +583,21 @@
 							"path": [
 								"api",
 								"workoutlog",
-								"3"
+								"5"
 							]
 						}
 					},
 					"response": []
 				},
 				{
-					"name": "Delete Workout Log",
+					"name": "Update A Workout Log",
 					"request": {
 						"auth": {
 							"type": "bearer",
 							"bearer": [
 								{
 									"key": "token",
-									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjQsInVzZXJuYW1lIjoidGVzdCIsImlhdCI6MTYyNzI1NTM3MTM2NiwiZXhwIjoxNjI3MjU1NDU3NzY2fQ.XXb2r6NQ6U_Y-8SDLpPdA7PDwZrw1fZ7XiD4fVBrkPA",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjIsInVzZXJuYW1lIjoiY2hyaXMiLCJpYXQiOjE2MTY1MzU5MzcxOTQsImV4cCI6MTYxNjUzNjAyMzU5NH0._NNsfXloydnFeX9cmfUJmHQxVXk1CHOV3mzBd9t34bI",
 									"type": "string"
 								}
 							]
@@ -577,7 +614,7 @@
 							}
 						},
 						"url": {
-							"raw": "localhost:8080/api/workoutlog/3",
+							"raw": "localhost:8080/api/workoutlog/6",
 							"host": [
 								"localhost"
 							],
@@ -585,415 +622,7 @@
 							"path": [
 								"api",
 								"workoutlog",
-								"3"
-							]
-						}
-					},
-					"response": []
-				}
-			]
-		},
-		{
-			"name": "Workout Route",
-			"item": [
-				{
-					"name": "Create Workout",
-					"request": {
-						"auth": {
-							"type": "bearer",
-							"bearer": [
-								{
-									"key": "token",
-									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjQsInVzZXJuYW1lIjoidGVzdCIsImlhdCI6MTYyNzI1NTM3MTM2NiwiZXhwIjoxNjI3MjU1NDU3NzY2fQ.XXb2r6NQ6U_Y-8SDLpPdA7PDwZrw1fZ7XiD4fVBrkPA",
-									"type": "string"
-								}
-							]
-						},
-						"method": "POST",
-						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "{\r\n    \r\n}",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
-						"url": {
-							"raw": "localhost:8080/api/set",
-							"host": [
-								"localhost"
-							],
-							"port": "8080",
-							"path": [
-								"api",
-								"set"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "Get All Workouts",
-					"protocolProfileBehavior": {
-						"disableBodyPruning": true
-					},
-					"request": {
-						"auth": {
-							"type": "bearer",
-							"bearer": [
-								{
-									"key": "token",
-									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjQsInVzZXJuYW1lIjoidGVzdCIsImlhdCI6MTYyNzI1NTM3MTM2NiwiZXhwIjoxNjI3MjU1NDU3NzY2fQ.XXb2r6NQ6U_Y-8SDLpPdA7PDwZrw1fZ7XiD4fVBrkPA",
-									"type": "string"
-								}
-							]
-						},
-						"method": "GET",
-						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
-						"url": {
-							"raw": "localhost:8080/api/workout",
-							"host": [
-								"localhost"
-							],
-							"port": "8080",
-							"path": [
-								"api",
-								"workout"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "Get Workout",
-					"protocolProfileBehavior": {
-						"disableBodyPruning": true
-					},
-					"request": {
-						"auth": {
-							"type": "bearer",
-							"bearer": [
-								{
-									"key": "token",
-									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjQsInVzZXJuYW1lIjoidGVzdCIsImlhdCI6MTYyNzI1NTM3MTM2NiwiZXhwIjoxNjI3MjU1NDU3NzY2fQ.XXb2r6NQ6U_Y-8SDLpPdA7PDwZrw1fZ7XiD4fVBrkPA",
-									"type": "string"
-								}
-							]
-						},
-						"method": "GET",
-						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
-						"url": {
-							"raw": "localhost:8080/api/workout/7",
-							"host": [
-								"localhost"
-							],
-							"port": "8080",
-							"path": [
-								"api",
-								"workout",
-								"7"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "Update Workout",
-					"request": {
-						"auth": {
-							"type": "bearer",
-							"bearer": [
-								{
-									"key": "token",
-									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjQsInVzZXJuYW1lIjoidGVzdCIsImlhdCI6MTYyNzI1NTM3MTM2NiwiZXhwIjoxNjI3MjU1NDU3NzY2fQ.XXb2r6NQ6U_Y-8SDLpPdA7PDwZrw1fZ7XiD4fVBrkPA",
-									"type": "string"
-								}
-							]
-						},
-						"method": "PUT",
-						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "{\r\n    \"note\": \":(\"\r\n}",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
-						"url": {
-							"raw": "localhost:8080/api/workout/7",
-							"host": [
-								"localhost"
-							],
-							"port": "8080",
-							"path": [
-								"api",
-								"workout",
-								"7"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "Delete Workout",
-					"request": {
-						"auth": {
-							"type": "bearer",
-							"bearer": [
-								{
-									"key": "token",
-									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjQsInVzZXJuYW1lIjoidGVzdCIsImlhdCI6MTYyNzI1NTM3MTM2NiwiZXhwIjoxNjI3MjU1NDU3NzY2fQ.XXb2r6NQ6U_Y-8SDLpPdA7PDwZrw1fZ7XiD4fVBrkPA",
-									"type": "string"
-								}
-							]
-						},
-						"method": "DELETE",
-						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
-						"url": {
-							"raw": "localhost:8080/api/workout/8",
-							"host": [
-								"localhost"
-							],
-							"port": "8080",
-							"path": [
-								"api",
-								"workout",
-								"8"
-							]
-						}
-					},
-					"response": []
-				}
-			]
-		},
-		{
-			"name": "Set Route",
-			"item": [
-				{
-					"name": "Create Set",
-					"request": {
-						"auth": {
-							"type": "bearer",
-							"bearer": [
-								{
-									"key": "token",
-									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjIsInVzZXJuYW1lIjoiYWxleCIsImlhdCI6MTYyNzI1ODY2MDA3MiwiZXhwIjoxNjI3MjU4NzQ2NDcyfQ._d50xcuwtrdtkPGbhuCq6pSsen4elBYAF5c7in53IIU",
-									"type": "string"
-								}
-							]
-						},
-						"method": "POST",
-						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "{\r\n    \"workout_id\": 2,\r\n    \"number_of_sets\": 2,\r\n    \"number_of_reps\": 2,\r\n    \"weight\": 45,\r\n    \"note\": \"Easy Warmup\"\r\n}",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
-						"url": {
-							"raw": "localhost:8080/api/set",
-							"host": [
-								"localhost"
-							],
-							"port": "8080",
-							"path": [
-								"api",
-								"set"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "Get All Sets",
-					"protocolProfileBehavior": {
-						"disableBodyPruning": true
-					},
-					"request": {
-						"auth": {
-							"type": "bearer",
-							"bearer": [
-								{
-									"key": "token",
-									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjUsInVzZXJuYW1lIjoidGVzdCIsImlhdCI6MTYyNzI1ODc3NTI0MywiZXhwIjoxNjI3MjU4ODYxNjQzfQ.WTWQqmCvlxyf5VlppBkesIVp4S2dmhV86G8hLD53zGA",
-									"type": "string"
-								}
-							]
-						},
-						"method": "GET",
-						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
-						"url": {
-							"raw": "localhost:8080/api/set",
-							"host": [
-								"localhost"
-							],
-							"port": "8080",
-							"path": [
-								"api",
-								"set"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "Get Set",
-					"protocolProfileBehavior": {
-						"disableBodyPruning": true
-					},
-					"request": {
-						"auth": {
-							"type": "bearer",
-							"bearer": [
-								{
-									"key": "token",
-									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjUsInVzZXJuYW1lIjoidGVzdCIsImlhdCI6MTYyNzI1ODc3NTI0MywiZXhwIjoxNjI3MjU4ODYxNjQzfQ.WTWQqmCvlxyf5VlppBkesIVp4S2dmhV86G8hLD53zGA",
-									"type": "string"
-								}
-							]
-						},
-						"method": "GET",
-						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
-						"url": {
-							"raw": "localhost:8080/api/set/29",
-							"host": [
-								"localhost"
-							],
-							"port": "8080",
-							"path": [
-								"api",
-								"set",
-								"29"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "Update Set",
-					"request": {
-						"auth": {
-							"type": "bearer",
-							"bearer": [
-								{
-									"key": "token",
-									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjUsInVzZXJuYW1lIjoidGVzdCIsImlhdCI6MTYyNzI1ODc3NTI0MywiZXhwIjoxNjI3MjU4ODYxNjQzfQ.WTWQqmCvlxyf5VlppBkesIVp4S2dmhV86G8hLD53zGA",
-									"type": "string"
-								}
-							]
-						},
-						"method": "PUT",
-						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "{\r\n    \"note\": \":(\"\r\n}",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
-						"url": {
-							"raw": "localhost:8080/api/set/29",
-							"host": [
-								"localhost"
-							],
-							"port": "8080",
-							"path": [
-								"api",
-								"set",
-								"29"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "Delete Set",
-					"request": {
-						"auth": {
-							"type": "bearer",
-							"bearer": [
-								{
-									"key": "token",
-									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjUsInVzZXJuYW1lIjoidGVzdCIsImlhdCI6MTYyNzI1ODc3NTI0MywiZXhwIjoxNjI3MjU4ODYxNjQzfQ.WTWQqmCvlxyf5VlppBkesIVp4S2dmhV86G8hLD53zGA",
-									"type": "string"
-								}
-							]
-						},
-						"method": "DELETE",
-						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
-						"url": {
-							"raw": "localhost:8080/api/set/29",
-							"host": [
-								"localhost"
-							],
-							"port": "8080",
-							"path": [
-								"api",
-								"set",
-								"29"
+								"6"
 							]
 						}
 					},

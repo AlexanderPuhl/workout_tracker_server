@@ -4,7 +4,6 @@ const morgan = require('morgan');
 const { format } = require('date-fns');
 const cors = require('cors');
 const { SERVER_PORT, CLIENT_ORIGIN } = require('./config');
-const routes = require('./routes');
 
 const app = express();
 
@@ -26,7 +25,7 @@ app.use(passport.initialize());
 
 app.use(express.json());
 
-app.use(routes);
+app.use(require('./routes'));
 
 app.use(({ next }) => {
   const err = new Error('Not Found');
