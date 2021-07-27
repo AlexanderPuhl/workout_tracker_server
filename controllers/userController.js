@@ -67,7 +67,9 @@ exports.refreshToken = (req, res, _next) => {
   res.json({ authToken });
 };
 
-// Get user data
+// @desc Get user data
+// @route GET /api/user/get_data
+// @access Private
 exports.getUserData = async (req, res, next) => {
   try {
     const { userId } = req.user;

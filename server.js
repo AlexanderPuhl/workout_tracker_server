@@ -5,7 +5,6 @@ const { format } = require('date-fns');
 const cors = require('cors');
 const { SERVER_PORT, CLIENT_ORIGIN } = require('./config');
 
-
 const app = express();
 
 morgan.token('date', () => format(new Date(), 'h:mm:ss a'));
