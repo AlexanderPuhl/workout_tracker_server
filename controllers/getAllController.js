@@ -4,7 +4,6 @@ const pg = require('../db/pg');
 // @route Get /api/workout
 // @access Private
 exports.getAll = async (req, res, next) => {
-  console.log('getAll');
   try {
     const { userId } = req.user;
     const { rows } = await pg.query(`SELECT
