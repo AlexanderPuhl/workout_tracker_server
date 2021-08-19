@@ -127,9 +127,7 @@ exports.deleteWorkoutLog = async (req, res, next) => {
 
     const { rowCount } = await pg.query('DELETE FROM workout_log WHERE user_id = $1 AND workout_log_id = $2', [userId, workoutLogId]);
     if (rowCount === 1) {
-      res
-        .status(204)
-        .json({ message: 'Workout log deleted.' });
+      res.sendStatus(204);
     } else {
       const error = new Error(
         `Could not find a workout log with workout_log_id: ${workoutLogId}.`,
