@@ -16,7 +16,10 @@ const updateableUserFields = gatherTableUpdateableFields(userFields);
 // @access Public
 exports.createUser = async (req, res, next) => {
   try {
-    validateRequestBody(req, userFields, next);
+    const error = validateRequestBody(req, userFields, next);
+    if (error instanceof Error) {
+      return next(error);
+    }
 
     const {
       username, password, roleId,
@@ -84,7 +87,10 @@ exports.getUserData = async (req, res, next) => {
 // @route POST /api/user/update
 // @access Private
 exports.updateUser = (req, res, next) => {
-  validateRequestBody(req, userFields, next);
+  const error = validateRequestBody(req, userFields, next);
+  if (error instanceof Error) {
+    return next(error);
+  }
 
   const { userId } = req.user;
   const toUpdate = {};

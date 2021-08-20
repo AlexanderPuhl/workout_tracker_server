@@ -14,7 +14,10 @@ const updateableSetFields = gatherTableUpdateableFields(setFields);
 // @access Private
 exports.createSet = async (req, res, next) => {
   try {
-    validateRequestBody(req, setFields, next);
+    const error = validateRequestBody(req, setFields, next);
+    if (error instanceof Error) {
+      return next(error);
+    }
 
     const { userId } = req.user;
     const newSet = { user_id: userId };
@@ -74,7 +77,10 @@ exports.getOneSet = async (req, res, next) => {
 // @access Private
 exports.updateSet = (req, res, next) => {
   try {
-    validateRequestBody(req, setFields, next);
+    const error = validateRequestBody(req, setFields, next);
+    if (error instanceof Error) {
+      return next(error);
+    }
 
     const { userId } = req.user;
     const { setId } = req.params;

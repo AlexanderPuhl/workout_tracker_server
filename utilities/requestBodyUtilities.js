@@ -130,10 +130,12 @@ function validateRequestBody(req, tableFields, next) {
   const tableIntFields = gatherTableIntFields(tableFields);
   const tableStringFieldSizes = gatherTableStringFieldSizes(tableFields);
 
+  let error = null;
+
   // CHECK TO MAKE SURE NO INVALID FIELDS ARE IN THE REQ.BODY
   requestBodyKeys.forEach((key) => {
     if (!validTableFields.includes(key)) {
-      const error = new Error(`'${key}' is not a valid field.`);
+      error = new Error(`'${key}' is not a valid field.`);
       error.status = 422;
       return next(error);
     }
@@ -146,7 +148,7 @@ function validateRequestBody(req, tableFields, next) {
       (field) => !(field in req.body),
     );
     if (missingField) {
-      const error = new Error(`'${missingField}' is required.`);
+      error = new Error(`'${missingField}' is required.`);
       error.status = 422;
       return next(error);
     }
@@ -156,7 +158,7 @@ function validateRequestBody(req, tableFields, next) {
   if (method === 'PUT') {
     requestBodyKeys.forEach((key) => {
       if (!updateableTableFields.includes(key)) {
-        const error = new Error(`'${key}' is not an updateable field.`);
+        error = new Error(`'${key}' is not an updateable field.`);
         error.status = 422;
         return next(error);
       }
@@ -170,7 +172,7 @@ function validateRequestBody(req, tableFields, next) {
     req.body,
   );
   if (invalidStringField) {
-    const error = new Error(`Field: '${invalidStringField}' must be a string.`);
+    error = new Error(`Field: '${invalidStringField}' must be a string.`);
     error.status = 422;
     return next(error);
   }
@@ -182,7 +184,7 @@ function validateRequestBody(req, tableFields, next) {
     stringFieldsFromBody,
   );
   if (nonTrimmedField) {
-    const error = new Error(
+    error = new Error(
       `Field: '${nonTrimmedField}' cannot start or end with a whitespace.`,
     );
     error.status = 422;
@@ -198,7 +200,7 @@ function validateRequestBody(req, tableFields, next) {
   if (fieldTooSmall) {
     const { MIN } = tableStringFieldSizes[fieldTooSmall];
     const characterString = MIN === 1 ? 'character' : 'characters';
-    const error = new Error(
+    error = new Error(
       `Field: '${fieldTooSmall}' must be at least ${MIN} ${characterString} long.`,
     );
     error.status = 422;
@@ -212,7 +214,7 @@ function validateRequestBody(req, tableFields, next) {
   );
   if (fieldTooLarge) {
     const { MAX } = tableStringFieldSizes[fieldTooLarge];
-    const error = new Error(
+    error = new Error(
       `Field: '${fieldTooLarge}' must be at most ${MAX} characters long.`,
     );
     error.status = 422;
@@ -222,7 +224,7 @@ function validateRequestBody(req, tableFields, next) {
   // CHECK TO MAKE SURE INT FIELDS ARE ACTUALLY NUMBERS
   const nonIntField = detectInvalidIntField(tableIntFields, req.body);
   if (nonIntField) {
-    const error = new Error(`Field: '${nonIntField}' must be a number.`);
+    error = new Error(`Field: '${nonIntField}' must be a number.`);
     error.status = 422;
     return next(error);
   }
@@ -231,11 +233,13 @@ function validateRequestBody(req, tableFields, next) {
   // CHECK TO MAKE SURE INT FIELDS ARE POSITIVE NUMBERS
   const negativeInt = detectNegativeInt(intFieldsFromBody);
   if (negativeInt) {
-    const error = new Error(
+    error = new Error(
       `Field: '${negativeInt}' must be a positive number.`,
     );
     error.status = 422;
-    return next(error);
+  }
+  if (error) {
+    return error;
   }
   return false;
 }

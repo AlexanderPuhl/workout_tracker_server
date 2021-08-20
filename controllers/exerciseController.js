@@ -14,7 +14,10 @@ const updateableExerciseFields = gatherTableUpdateableFields(exerciseFields);
 // @access Private
 exports.createExercise = async (req, res, next) => {
   try {
-    validateRequestBody(req, exerciseFields, next);
+    const error = validateRequestBody(req, exerciseFields, next);
+    if (error instanceof Error) {
+      return next(error);
+    }
 
     knex
       .insert(req.body)
@@ -64,7 +67,10 @@ exports.getOneExercise = async (req, res, next) => {
 // @access Private
 exports.updateExercise = (req, res, next) => {
   try {
-    validateRequestBody(req, exerciseFields, next);
+    const error = validateRequestBody(req, exerciseFields, next);
+    if (error instanceof Error) {
+      return next(error);
+    }
 
     const { exerciseId } = req.params;
     const toUpdate = {};

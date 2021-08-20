@@ -14,7 +14,10 @@ const updateableWorkoutFields = gatherTableUpdateableFields(workoutFields);
 // @access Private
 exports.createWorkout = async (req, res, next) => {
   try {
-    validateRequestBody(req, workoutFields, next);
+    const error = validateRequestBody(req, workoutFields, next);
+    if (error instanceof Error) {
+      return next(error);
+    }
 
     const { userId } = req.user;
     const newWorkout = { user_id: userId };
@@ -74,7 +77,10 @@ exports.getOneWorkout = async (req, res, next) => {
 // @access Private
 exports.updateWorkout = (req, res, next) => {
   try {
-    validateRequestBody(req, workoutFields, next);
+    const error = validateRequestBody(req, workoutFields, next);
+    if (error instanceof Error) {
+      return next(error);
+    }
 
     const { userId } = req.user;
     const { workoutId } = req.params;
