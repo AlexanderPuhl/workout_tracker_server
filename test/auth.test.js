@@ -15,9 +15,8 @@ chai.use(chaiHttp);
 
 describe('Auth API resources'.cyan.bold.underline, () => {
 	let user = {
-		user_id: 1,
-		username: 'demo',
-		email: 'demo@demo.com',
+		userId: 1,
+		username: 'superUser',
 		iat: Date.now()
 	};
 
@@ -27,7 +26,7 @@ describe('Auth API resources'.cyan.bold.underline, () => {
 		.then(() => knex.migrate.latest())
 		.then(() => knex.seed.run())
 		.then(async () => {
-			validUser = await userController.findOne('demo');
+			validUser = await userController.findOne('superUser');
 		})
 		.then(() => {
 			authToken = jwt.sign(user, JWT_SECRET, { expiresIn: JWT_EXPIRATION, algorithm: 'HS256' });
@@ -68,7 +67,7 @@ describe('Auth API resources'.cyan.bold.underline, () => {
 			});
 
 			it('should return a valid jwt if your username is in the database and the password is correct.'.cyan, async () => {
-				const validUser = { username: 'demo', password: 'thinkful123' };
+				const validUser = { username: 'superUser', password: 'thinkful123' };
 				const response = await chai
 					.request(server)
 					.post('/api/user/login/')
