@@ -22,14 +22,14 @@ exports.createUser = async (req, res, next) => {
     }
 
     const {
-      username, password, roleId,
+      username, email, name, password, roleId,
     } = req.body;
 
     const userExists = await pg.query('SELECT * FROM public.user WHERE username = $1', [username]);
     if (userExists.rows.length === 0) {
-      const query = 'INSERT INTO public.user(username, password, role_id) VALUES($1, $2, $3) RETURNING *';
+      const query = 'INSERT INTO public.user(username, email, name, password, role_id) VALUES($1, $2, $3, $4, $5) RETURNING *';
       const hashedPassword = await bcrypt.hash(password, 10);
-      const newUser = [username, hashedPassword, roleId];
+      const newUser = [username, email, name, hashedPassword, roleId];
       const { rows } = await pg.query(query, newUser);
       const result = rows[0];
       const response = {
