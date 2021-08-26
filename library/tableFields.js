@@ -156,7 +156,7 @@ const userFields = {
     required: true,
     updateable: true,
     dataType: 'STRING',
-    fieldSize: { MIN: 1, MAX: 70 },
+    fieldSize: { MIN: 3, MAX: 70 },
   },
   name: {
     required: true,
