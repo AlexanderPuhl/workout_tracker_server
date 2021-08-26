@@ -8,7 +8,7 @@ function gatherTableUpdateableFields(fields) {
   return updateableFields;
 }
 
-function validateRequestBody(req, tableFields, next) {
+function validateRequestBody(request, tableFields, next) {
   // PRIVATE FUNCTIONS
   function gatherTableRequiredFields(fields) {
     const requiredFields = [];
@@ -56,9 +56,9 @@ function validateRequestBody(req, tableFields, next) {
     );
   }
 
-  function gatherStringFieldsFromBody(reqBody) {
+  function gatherStringFieldsFromBody(requestBody) {
     const stringFields = {};
-    Object.entries(reqBody).forEach((field) => {
+    Object.entries(requestBody).forEach((field) => {
       const key = field[0];
       const value = field[1];
       if (typeof (value) === 'string') {
@@ -97,9 +97,9 @@ function validateRequestBody(req, tableFields, next) {
     );
   }
 
-  function gatherIntFieldsFromBody(reqBody) {
+  function gatherIntFieldsFromBody(requestBody) {
     const intFields = {};
-    Object.entries(reqBody).forEach((field) => {
+    Object.entries(requestBody).forEach((field) => {
       const key = field[0];
       const value = field[1];
       if (typeof (value) === 'number') {
@@ -121,8 +121,8 @@ function validateRequestBody(req, tableFields, next) {
     return returnedField;
   }
 
-  const { method } = req;
-  const requestBodyKeys = Object.keys(req.body);
+  const { method } = request;
+  const requestBodyKeys = Object.keys(request.body);
   const validTableFields = Object.keys(tableFields);
   const requiredTableFields = gatherTableRequiredFields(tableFields);
   const updateableTableFields = gatherTableUpdateableFields(tableFields);
@@ -145,7 +145,7 @@ function validateRequestBody(req, tableFields, next) {
   // CHECK TO MAKE SURE REQUIRED FIELDS ARE IN THE REQ.BODY
   if (method === 'POST') {
     const missingField = requiredTableFields.find(
-      (field) => !(field in req.body),
+      (field) => !(field in request.body),
     );
     if (missingField) {
       error = new Error(`'${missingField}' is required.`);
@@ -169,14 +169,14 @@ function validateRequestBody(req, tableFields, next) {
   // CHECK TO MAKE SURE STRING FIELDS ARE ACTUALLY STRINGS
   const invalidStringField = detectInvalidStringField(
     tableStringFields,
-    req.body,
+    request.body,
   );
   if (invalidStringField) {
     error = new Error(`Field: '${invalidStringField}' must be a string.`);
     error.status = 422;
     return next(error);
   }
-  const stringFieldsFromBody = gatherStringFieldsFromBody(req.body);
+  const stringFieldsFromBody = gatherStringFieldsFromBody(request.body);
 
   // CHECK TO MAKE SURE NO LEADING/HANGING WHITE SPACES ARE IN THE STRINGS
   const nonTrimmedField = detectNonTrimmedStrings(
@@ -222,13 +222,13 @@ function validateRequestBody(req, tableFields, next) {
   }
 
   // CHECK TO MAKE SURE INT FIELDS ARE ACTUALLY NUMBERS
-  const nonIntField = detectInvalidIntField(tableIntFields, req.body);
+  const nonIntField = detectInvalidIntField(tableIntFields, request.body);
   if (nonIntField) {
     error = new Error(`Field: '${nonIntField}' must be a number.`);
     error.status = 422;
     return next(error);
   }
-  const intFieldsFromBody = gatherIntFieldsFromBody(req.body);
+  const intFieldsFromBody = gatherIntFieldsFromBody(request.body);
 
   // CHECK TO MAKE SURE INT FIELDS ARE POSITIVE NUMBERS
   const negativeInt = detectNegativeInt(intFieldsFromBody);

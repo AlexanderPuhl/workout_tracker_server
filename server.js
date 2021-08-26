@@ -30,18 +30,18 @@ app.use(express.json());
 app.use(require('./routes'));
 
 app.use(({ next }) => {
-  const err = new Error('Not Found');
-  err.status = 404;
-  next(err);
+  const error = new Error('Not Found');
+  error.status = 404;
+  next(error);
 });
 
-app.use((err, req, res, _next) => {
-  if (err.status) {
-    const errBody = { ...err, message: err.message };
-    res.status(err.status).json(errBody);
+app.use((error, request, response, _next) => {
+  if (error.status) {
+    const errBody = { ...error, message: error.message };
+    response.status(error.status).json(errBody);
   } else {
-    res.status(500).json({ message: 'Internal Server Error' });
-    if (err.name !== 'FakeError') console.log(err);
+    response.status(500).json({ message: 'Internal Server Error' });
+    if (error.name !== 'FakeError') console.log(error);
   }
 });
 
@@ -50,9 +50,9 @@ function runServer(port = SERVER_PORT) {
     .listen(port, () => {
       console.info(`App listening on port ${server.address().port}`);
     })
-    .on('error', (err) => {
+    .on('error', (error) => {
       console.error('Express failed to start');
-      console.error(err);
+      console.error(error);
     });
 }
 

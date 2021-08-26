@@ -12,17 +12,17 @@ const updateableSetFields = gatherTableUpdateableFields(setFields);
 // @desc Create a set
 // @route POST /api/set
 // @access Private
-exports.createSet = async (req, res, next) => {
+exports.createSet = async (request, response, next) => {
   try {
-    const error = validateRequestBody(req, setFields, next);
-    if (error instanceof Error) {
-      return next(error);
+    const requestBodyError = validateRequestBody(request, setFields, next);
+    if (requestBodyError instanceof Error) {
+      return next(requestBodyError);
     }
 
-    const { userId } = req.user;
+    const { userId } = request.user;
     const newSet = { user_id: userId };
 
-    for (const [key, value] of Object.entries(req.body)) {
+    for (const [key, value] of Object.entries(request.body)) {
       newSet[key] = value;
     }
 
@@ -32,13 +32,13 @@ exports.createSet = async (req, res, next) => {
       .returning('*')
       .then((result) => {
         const results = result[0];
-        res
+        response
           .status(201)
-          .location(`${req.originalUrl}/${results.set_id}`)
+          .location(`${request.originalUrl}/${results.set_id}`)
           .json(results);
       })
-      .catch((error) => {
-        next(error);
+      .catch((databaseError) => {
+        next(databaseError);
       });
   } catch (error) {
     next(error);
@@ -48,11 +48,11 @@ exports.createSet = async (req, res, next) => {
 // @desc Get all sets
 // @route Get /api/set
 // @access Private
-exports.getAllSets = async (req, res, next) => {
+exports.getAllSets = async (request, response, next) => {
   try {
-    const { userId } = req.user;
+    const { userId } = request.user;
     const { rows } = await pg.query('SELECT * FROM set WHERE user_id = $1', [userId]);
-    res.status(200).json(rows);
+    response.status(200).json(rows);
   } catch (error) {
     next(error);
   }
@@ -61,12 +61,12 @@ exports.getAllSets = async (req, res, next) => {
 // @desc Get a set
 // @route Get /api/set/:setId
 // @access Private
-exports.getOneSet = async (req, res, next) => {
+exports.getOneSet = async (request, response, next) => {
   try {
-    const { userId } = req.user;
-    const { setId } = req.params;
+    const { userId } = request.user;
+    const { setId } = request.params;
     const { rows } = await pg.query('SELECT * FROM set WHERE user_id = $1 AND set_id = $2', [userId, setId]);
-    res.status(200).json(rows);
+    response.status(200).json(rows);
   } catch (error) {
     next(error);
   }
@@ -75,20 +75,20 @@ exports.getOneSet = async (req, res, next) => {
 // @desc Update a set
 // @route Put /api/set/:setId
 // @access Private
-exports.updateSet = (req, res, next) => {
+exports.updateSet = (request, response, next) => {
   try {
-    const error = validateRequestBody(req, setFields, next);
-    if (error instanceof Error) {
-      return next(error);
+    const requestBodyError = validateRequestBody(request, setFields, next);
+    if (requestBodyError instanceof Error) {
+      return next(requestBodyError);
     }
 
-    const { userId } = req.user;
-    const { setId } = req.params;
+    const { userId } = request.user;
+    const { setId } = request.params;
     const toUpdate = {};
 
     updateableSetFields.forEach((field) => {
-      if (field in req.body) {
-        toUpdate[field] = req.body[field];
+      if (field in request.body) {
+        toUpdate[field] = request.body[field];
       }
     });
 
@@ -103,13 +103,13 @@ exports.updateSet = (req, res, next) => {
       .update(toUpdate)
       .then((results) => {
         const result = results[0];
-        res
+        response
           .status(200)
-          .location(`${req.originalUrl}/${result.set_id}`)
+          .location(`${request.originalUrl}/${result.set_id}`)
           .json(result);
       })
-      .catch((error) => {
-        next(error);
+      .catch((databaseError) => {
+        next(databaseError);
       });
   } catch (error) {
     next(error);
@@ -119,10 +119,10 @@ exports.updateSet = (req, res, next) => {
 // @desc Delete a set
 // @route Delete /api/set/:setId
 // @access Private
-exports.deleteSet = async (req, res, next) => {
+exports.deleteSet = async (request, response, next) => {
   try {
-    const { userId } = req.user;
-    const { setId } = req.params;
+    const { userId } = request.user;
+    const { setId } = request.params;
 
     // //CHECK TO MAKE SURE SET_ID IS A NUMBER
     if (Number.isNaN(setId)) {
@@ -133,7 +133,7 @@ exports.deleteSet = async (req, res, next) => {
 
     const { rowCount } = await pg.query('DELETE FROM set WHERE user_id = $1 AND set_id = $2', [userId, setId]);
     if (rowCount === 1) {
-      res
+      response
         .status(204)
         .json({ message: 'set deleted.' });
     } else {

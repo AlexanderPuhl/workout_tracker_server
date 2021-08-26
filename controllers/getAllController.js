@@ -3,9 +3,9 @@ const pg = require('../db/pg');
 // @desc Get all workouts
 // @route Get /api/workout
 // @access Private
-exports.getAll = async (req, res, next) => {
+exports.getAll = async (request, response, next) => {
   try {
-    const { userId } = req.user;
+    const { userId } = request.user;
     const { rows } = await pg.query(`SELECT
                                         u.username,
                                         wl.workout_log_id,
@@ -38,7 +38,7 @@ exports.getAll = async (req, res, next) => {
                                         w.workout_id,
                                         e.exercise_id,
                                         s.set_id`, [userId]);
-    res.status(200).json(rows);
+    response.status(200).json(rows);
   } catch (error) {
     next(error);
   }
@@ -47,10 +47,10 @@ exports.getAll = async (req, res, next) => {
 // @desc Get a workout
 // @route Get /api/get_all/:workoutLogId
 // @access Private
-exports.getOne = async (req, res, next) => {
+exports.getOne = async (request, response, next) => {
   try {
-    const { userId } = req.user;
-    const { workoutLogId } = req.params;
+    const { userId } = request.user;
+    const { workoutLogId } = request.params;
     const { rows } = await pg.query(`SELECT
                                         u.username,
                                         wl.workout_log_id,
@@ -85,7 +85,7 @@ exports.getOne = async (req, res, next) => {
                                         w.workout_id,
                                         e.exercise_id,
                                         s.set_id`, [userId, workoutLogId]);
-    res.status(200).json(rows);
+    response.status(200).json(rows);
   } catch (error) {
     next(error);
   }

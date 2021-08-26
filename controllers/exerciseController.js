@@ -12,26 +12,26 @@ const updateableExerciseFields = gatherTableUpdateableFields(exerciseFields);
 // @desc Create a exercise
 // @route POST /api/exercise/
 // @access Private
-exports.createExercise = async (req, res, next) => {
+exports.createExercise = async (request, response, next) => {
   try {
-    const error = validateRequestBody(req, exerciseFields, next);
-    if (error instanceof Error) {
-      return next(error);
+    const requestBodyError = validateRequestBody(request, exerciseFields, next);
+    if (requestBodyError instanceof Error) {
+      return next(requestBodyError);
     }
 
     knex
-      .insert(req.body)
+      .insert(request.body)
       .into('exercise')
       .returning('*')
       .then((result) => {
         const results = result[0];
-        res
+        response
           .status(201)
-          .location(`${req.originalUrl}/${results.exercise_id}`)
+          .location(`${request.originalUrl}/${results.exercise_id}`)
           .json(results);
       })
-      .catch((error) => {
-        next(error);
+      .catch((databaseError) => {
+        next(databaseError);
       });
   } catch (error) {
     next(error);
@@ -40,10 +40,10 @@ exports.createExercise = async (req, res, next) => {
 // @desc Get all workouts
 // @route Get /api/exercise
 // @access Private
-exports.getAllExercises = async (req, res, next) => {
+exports.getAllExercises = async (request, response, next) => {
   try {
     const { rows } = await pg.query('SELECT * FROM exercise');
-    res.status(200).json(rows);
+    response.status(200).json(rows);
   } catch (error) {
     next(error);
   }
@@ -52,11 +52,11 @@ exports.getAllExercises = async (req, res, next) => {
 // @desc Get a exercise
 // @route Get /api/exercise/:exerciseId
 // @access Private
-exports.getOneExercise = async (req, res, next) => {
+exports.getOneExercise = async (request, response, next) => {
   try {
-    const { exerciseId } = req.params;
+    const { exerciseId } = request.params;
     const { rows } = await pg.query('SELECT * FROM exercise WHERE exercise_id = $1', [exerciseId]);
-    res.status(200).json(rows);
+    response.status(200).json(rows);
   } catch (error) {
     next(error);
   }
@@ -65,19 +65,19 @@ exports.getOneExercise = async (req, res, next) => {
 // @desc Update a exercise
 // @route Put /api/exercise/:exerciseId
 // @access Private
-exports.updateExercise = (req, res, next) => {
+exports.updateExercise = (request, response, next) => {
   try {
-    const error = validateRequestBody(req, exerciseFields, next);
-    if (error instanceof Error) {
-      return next(error);
+    const requestBodyError = validateRequestBody(request, exerciseFields, next);
+    if (requestBodyError instanceof Error) {
+      return next(requestBodyError);
     }
 
-    const { exerciseId } = req.params;
+    const { exerciseId } = request.params;
     const toUpdate = {};
 
     updateableExerciseFields.forEach((field) => {
-      if (field in req.body) {
-        toUpdate[field] = req.body[field];
+      if (field in request.body) {
+        toUpdate[field] = request.body[field];
       }
     });
 
@@ -91,13 +91,13 @@ exports.updateExercise = (req, res, next) => {
       .update(toUpdate)
       .then((results) => {
         const result = results[0];
-        res
+        response
           .status(200)
-          .location(`${req.originalUrl}/${result.exercise_id}`)
+          .location(`${request.originalUrl}/${result.exercise_id}`)
           .json(result);
       })
-      .catch((error) => {
-        next(error);
+      .catch((databaseError) => {
+        next(databaseError);
       });
   } catch (error) {
     next(error);
@@ -107,9 +107,9 @@ exports.updateExercise = (req, res, next) => {
 // @desc Delete a exercise
 // @route Delete /api/exercise/:exerciseId
 // @access Private
-exports.deleteExercise = async (req, res, next) => {
+exports.deleteExercise = async (request, response, next) => {
   try {
-    const { exerciseId } = req.params;
+    const { exerciseId } = request.params;
 
     // //CHECK TO MAKE SURE WORKOUT_ID IS A NUMBER
     if (Number.isNaN(exerciseId)) {
@@ -120,7 +120,7 @@ exports.deleteExercise = async (req, res, next) => {
 
     const { rowCount } = await pg.query('DELETE FROM exercise WHERE exercise_id = $1', [exerciseId]);
     if (rowCount === 1) {
-      res
+      response
         .status(204)
         .json({ message: 'Exercise deleted.' });
     } else {
