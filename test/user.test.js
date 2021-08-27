@@ -19,11 +19,11 @@ describe('Users API Resources'.cyan.bold.underline, () => {
   let authToken = '';
   const jwtPayload = {
     user_id: 1,
-    username: 'demo',
-    email: 'demo@demo.com',
+    username: 'alex',
+    email: 'alex@test.com',
     iat: Date.now(),
   };
-  const validUser = { username: 'demo', password: 'thinkful123' };
+  const existingUser = { username: 'alex', password: 'thinkful123' };
   const name = 'testName';
   const email = 'test@test.com';
   const username = 'testUsername';
@@ -40,7 +40,7 @@ describe('Users API Resources'.cyan.bold.underline, () => {
   afterEach(() => knex.migrate.rollback());
 
   describe('api/users'.cyan.bold, () => {
-    describe.only('POST'.yellow, () => {
+    describe('POST'.yellow, () => {
       it('Should reject users with an invalid field.'.cyan, async () => {
         const invalidField = 'invalidField';
         const newUser = {
@@ -518,7 +518,7 @@ describe('Users API Resources'.cyan.bold.underline, () => {
         const loginResponse = await chai
           .request(server)
           .post('/api/user/login/')
-          .send(validUser);
+          .send(existingUser);
         expect(loginResponse).to.be.json;
         expect(loginResponse).to.have.status(200);
         expect(loginResponse.body).to.be.an('object');
@@ -544,7 +544,7 @@ describe('Users API Resources'.cyan.bold.underline, () => {
         const loginResponse = await chai
           .request(server)
           .post('/api/user/login/')
-          .send(validUser);
+          .send(existingUser);
         expect(loginResponse).to.be.json;
         expect(loginResponse).to.have.status(200);
         expect(loginResponse.body).to.be.an('object');
@@ -570,7 +570,7 @@ describe('Users API Resources'.cyan.bold.underline, () => {
         const loginResponse = await chai
           .request(server)
           .post('/api/user/login/')
-          .send(validUser);
+          .send(existingUser);
         expect(loginResponse).to.be.json;
         expect(loginResponse).to.have.status(200);
         expect(loginResponse.body).to.be.an('object');
@@ -596,7 +596,7 @@ describe('Users API Resources'.cyan.bold.underline, () => {
         const loginResponse = await chai
           .request(server)
           .post('/api/user/login/')
-          .send(validUser);
+          .send(existingUser);
         expect(loginResponse).to.be.json;
         expect(loginResponse).to.have.status(200);
         expect(loginResponse.body).to.be.an('object');
@@ -622,7 +622,7 @@ describe('Users API Resources'.cyan.bold.underline, () => {
         const loginResponse = await chai
           .request(server)
           .post('/api/user/login/')
-          .send(validUser);
+          .send(existingUser);
         expect(loginResponse).to.be.json;
         expect(loginResponse).to.have.status(200);
         expect(loginResponse.body).to.be.an('object');
@@ -648,7 +648,7 @@ describe('Users API Resources'.cyan.bold.underline, () => {
         const loginResponse = await chai
           .request(server)
           .post('/api/user/login/')
-          .send(validUser);
+          .send(existingUser);
         expect(loginResponse).to.be.json;
         expect(loginResponse).to.have.status(200);
         expect(loginResponse.body).to.be.an('object');
@@ -674,7 +674,7 @@ describe('Users API Resources'.cyan.bold.underline, () => {
         const loginResponse = await chai
           .request(server)
           .post('/api/user/login/')
-          .send(validUser);
+          .send(existingUser);
         expect(loginResponse).to.be.json;
         expect(loginResponse).to.have.status(200);
         expect(loginResponse.body).to.be.an('object');
@@ -700,7 +700,7 @@ describe('Users API Resources'.cyan.bold.underline, () => {
         const loginResponse = await chai
           .request(server)
           .post('/api/user/login/')
-          .send(validUser);
+          .send(existingUser);
         expect(loginResponse).to.be.json;
         expect(loginResponse).to.have.status(200);
         expect(loginResponse.body).to.be.an('object');
@@ -726,7 +726,7 @@ describe('Users API Resources'.cyan.bold.underline, () => {
         const loginResponse = await chai
           .request(server)
           .post('/api/user/login/')
-          .send(validUser);
+          .send(existingUser);
         expect(loginResponse).to.be.json;
         expect(loginResponse).to.have.status(200);
         expect(loginResponse.body).to.be.an('object');
@@ -753,7 +753,7 @@ describe('Users API Resources'.cyan.bold.underline, () => {
         const loginResponse = await chai
           .request(server)
           .post('/api/user/login/')
-          .send(validUser);
+          .send(existingUser);
         expect(loginResponse).to.be.json;
         expect(loginResponse).to.have.status(200);
         expect(loginResponse.body).to.be.an('object');
@@ -780,7 +780,7 @@ describe('Users API Resources'.cyan.bold.underline, () => {
         const loginResponse = await chai
           .request(server)
           .post('/api/user/login/')
-          .send(validUser);
+          .send(existingUser);
         expect(loginResponse).to.be.json;
         expect(loginResponse).to.have.status(200);
         expect(loginResponse.body).to.be.an('object');
@@ -807,7 +807,7 @@ describe('Users API Resources'.cyan.bold.underline, () => {
         const loginResponse = await chai
           .request(server)
           .post('/api/user/login/')
-          .send(validUser);
+          .send(existingUser);
         expect(loginResponse).to.be.json;
         expect(loginResponse).to.have.status(200);
         expect(loginResponse.body).to.be.an('object');
@@ -826,58 +826,6 @@ describe('Users API Resources'.cyan.bold.underline, () => {
         expect(updateResponse.body.message).to.equal('Field: \'name\' must be at most 70 characters long.');
       });
 
-      it('Should reject a user update if the selected_vehicle_id is not a number.'.cyan, async () => {
-        const updateData = {
-          selected_vehicle_id: 'not a Number',
-        };
-        const loginResponse = await chai
-          .request(server)
-          .post('/api/user/login/')
-          .send(validUser);
-        expect(loginResponse).to.be.json;
-        expect(loginResponse).to.have.status(200);
-        expect(loginResponse.body).to.be.an('object');
-        expect(loginResponse.body).to.include.keys('authToken');
-        const { authToken } = loginResponse.body;
-        const updateResponse = await chai
-          .request(server)
-          .put('/api/user/update')
-          .set('authorization', `Bearer ${authToken}`)
-          .send(updateData);
-        expect(updateResponse).to.be.json;
-        expect(updateResponse).to.have.status(422);
-        expect(updateResponse.body).to.be.an('object');
-        expect(updateResponse.body).to.include.keys('status', 'message');
-        expect(updateResponse.body.status).to.equal(422);
-        expect(updateResponse.body.message).to.equal('Field: \'selected_vehicle_id\' must be a number.');
-      });
-
-      it('Should reject a user update if the selected_vehicle_id is not a positive number.'.cyan, async () => {
-        const updateData = {
-          selected_vehicle_id: -5,
-        };
-        const loginResponse = await chai
-          .request(server)
-          .post('/api/user/login/')
-          .send(validUser);
-        expect(loginResponse).to.be.json;
-        expect(loginResponse).to.have.status(200);
-        expect(loginResponse.body).to.be.an('object');
-        expect(loginResponse.body).to.include.keys('authToken');
-        const { authToken } = loginResponse.body;
-        const updateResponse = await chai
-          .request(server)
-          .put('/api/user/update')
-          .set('authorization', `Bearer ${authToken}`)
-          .send(updateData);
-        expect(updateResponse).to.be.json;
-        expect(updateResponse).to.have.status(422);
-        expect(updateResponse.body).to.be.an('object');
-        expect(updateResponse.body).to.include.keys('status', 'message');
-        expect(updateResponse.body.status).to.equal(422);
-        expect(updateResponse.body.message).to.equal('Field: \'selected_vehicle_id\' must be a positive number.');
-      });
-
       it('Should update a users name value.'.cyan, async () => {
         const updateData = {
           name: 'AlphaOMEGA!!!',
@@ -885,7 +833,7 @@ describe('Users API Resources'.cyan.bold.underline, () => {
         const response = await chai
           .request(server)
           .post('/api/user/login/')
-          .send(validUser);
+          .send(existingUser);
         expect(response).to.be.json;
         expect(response).to.have.status(200);
         expect(response.body).to.be.an('object');
@@ -901,95 +849,18 @@ describe('Users API Resources'.cyan.bold.underline, () => {
         expect(response_2.body).to.be.an('object');
         expect(response_2.body).to.include.keys(
           'user_id',
+          'role_id',
           'username',
           'email',
           'name',
-          'selected_vehicle_id',
-          'onboarding',
-          'created_on',
           'last_login',
+          'created_on',
           'modified_on',
           'reset_token',
           'reset_token_expiration',
         );
-        expect(response_2.body.username).to.equal(validUser.username);
+        expect(response_2.body.username).to.equal(existingUser.username);
         expect(response_2.body.name).to.equal(updateData.name);
-      });
-
-      it('Should update a users onboarding value.'.cyan, async () => {
-        const updateData = {
-          onboarding: false,
-        };
-        const response = await chai
-          .request(server)
-          .post('/api/user/login/')
-          .send(validUser);
-        expect(response).to.be.json;
-        expect(response).to.have.status(200);
-        expect(response.body).to.be.an('object');
-        expect(response.body).to.include.keys('authToken');
-        const { authToken } = response.body;
-        const response_2 = await chai
-          .request(server)
-          .put('/api/user/update')
-          .set('authorization', `Bearer ${authToken}`)
-          .send(updateData);
-        expect(response).to.be.json;
-        expect(response_2).to.have.status(200);
-        expect(response_2.body).to.be.an('object');
-        expect(response_2.body).to.include.keys(
-          'user_id',
-          'username',
-          'email',
-          'name',
-          'selected_vehicle_id',
-          'onboarding',
-          'created_on',
-          'last_login',
-          'modified_on',
-          'reset_token',
-          'reset_token_expiration',
-        );
-        expect(response_2.body.username).to.equal(validUser.username);
-        expect(response_2.body.onboarding).to.equal(updateData.onboarding);
-      });
-
-      it('Should update a users selectedVehicle value.'.cyan, async () => {
-        const updateData = {
-          selected_vehicle_id: 2,
-        };
-        const response = await chai
-          .request(server)
-          .post('/api/user/login')
-          .send(validUser);
-        expect(response).to.be.json;
-        expect(response).to.have.status(200);
-        expect(response.body).to.be.an('object');
-        expect(response.body).to.include.keys('authToken');
-        const { authToken } = response.body;
-        const response_2 = await chai
-          .request(server)
-          .put('/api/user/update')
-          .set('authorization', `Bearer ${authToken}`)
-          .send(updateData);
-        expect(response).to.be.json;
-        expect(response_2).to.have.status(200);
-        expect(response_2.body).to.be.an('object');
-        expect(response_2.body).to.include.keys(
-          'user_id',
-          'username',
-          'email',
-          'name',
-          'selected_vehicle_id',
-          'onboarding',
-          'created_on',
-          'last_login',
-          'modified_on',
-          'reset_token',
-          'reset_token_expiration',
-        );
-        expect(response_2.body.username).to.equal(validUser.username);
-        expect(response_2.body.selectedVehicle).to.equal(updateData.selectedVehicle);
       });
     });
 
@@ -1026,7 +897,7 @@ describe('Users API Resources'.cyan.bold.underline, () => {
         const loginResponse = await chai
           .request(server)
           .post('/api/user/login/')
-          .send(validUser);
+          .send(existingUser);
         expect(loginResponse).to.be.json;
         expect(loginResponse).to.have.status(200);
         expect(loginResponse.body).to.be.an('object');
