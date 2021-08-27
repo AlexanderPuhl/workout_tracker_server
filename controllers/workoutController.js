@@ -12,17 +12,17 @@ const updateableWorkoutFields = gatherTableUpdateableFields(workoutFields);
 // @desc Create a workout
 // @route POST /api/workout
 // @access Private
-exports.createWorkout = async (req, res, next) => {
+exports.createWorkout = async (request, response, next) => {
   try {
-    const error = validateRequestBody(req, workoutFields, next);
-    if (error instanceof Error) {
-      return next(error);
+    const requestBodyError = validateRequestBody(request, workoutFields, next);
+    if (requestBodyError instanceof Error) {
+      return next(requestBodyError);
     }
 
-    const { userId } = req.user;
+    const { userId } = request.user;
     const newWorkout = { user_id: userId };
 
-    for (const [key, value] of Object.entries(req.body)) {
+    for (const [key, value] of Object.entries(request.body)) {
       newWorkout[key] = value;
     }
 
@@ -32,13 +32,13 @@ exports.createWorkout = async (req, res, next) => {
       .returning('*')
       .then((result) => {
         const results = result[0];
-        res
+        response
           .status(201)
-          .location(`${req.originalUrl}/${results.workout_id}`)
+          .location(`${request.originalUrl}/${results.workout_id}`)
           .json(results);
       })
-      .catch((error) => {
-        next(error);
+      .catch((databaseError) => {
+        next(databaseError);
       });
   } catch (error) {
     next(error);
@@ -48,11 +48,11 @@ exports.createWorkout = async (req, res, next) => {
 // @desc Get all workouts
 // @route Get /api/workout
 // @access Private
-exports.getAllWorkouts = async (req, res, next) => {
+exports.getAllWorkouts = async (request, response, next) => {
   try {
-    const { userId } = req.user;
+    const { userId } = request.user;
     const { rows } = await pg.query('SELECT * FROM workout WHERE user_id = $1', [userId]);
-    res.status(200).json(rows);
+    response.status(200).json(rows);
   } catch (error) {
     next(error);
   }
@@ -61,12 +61,12 @@ exports.getAllWorkouts = async (req, res, next) => {
 // @desc Get a workout
 // @route Get /api/workout/:workoutId
 // @access Private
-exports.getOneWorkout = async (req, res, next) => {
+exports.getOneWorkout = async (request, response, next) => {
   try {
-    const { userId } = req.user;
-    const { workoutId } = req.params;
+    const { userId } = request.user;
+    const { workoutId } = request.params;
     const { rows } = await pg.query('SELECT * FROM workout WHERE user_id = $1 AND workout_id = $2', [userId, workoutId]);
-    res.status(200).json(rows);
+    response.status(200).json(rows);
   } catch (error) {
     next(error);
   }
@@ -75,20 +75,20 @@ exports.getOneWorkout = async (req, res, next) => {
 // @desc Update a workout
 // @route Put /api/workout/:workoutId
 // @access Private
-exports.updateWorkout = (req, res, next) => {
+exports.updateWorkout = (request, response, next) => {
   try {
-    const error = validateRequestBody(req, workoutFields, next);
-    if (error instanceof Error) {
-      return next(error);
+    const requestBodyError = validateRequestBody(request, workoutFields, next);
+    if (requestBodyError instanceof Error) {
+      return next(requestBodyError);
     }
 
-    const { userId } = req.user;
-    const { workoutId } = req.params;
+    const { userId } = request.user;
+    const { workoutId } = request.params;
     const toUpdate = {};
 
     updateableWorkoutFields.forEach((field) => {
-      if (field in req.body) {
-        toUpdate[field] = req.body[field];
+      if (field in request.body) {
+        toUpdate[field] = request.body[field];
       }
     });
 
@@ -103,13 +103,13 @@ exports.updateWorkout = (req, res, next) => {
       .update(toUpdate)
       .then((results) => {
         const result = results[0];
-        res
+        response
           .status(200)
-          .location(`${req.originalUrl}/${result.workout_id}`)
+          .location(`${request.originalUrl}/${result.workout_id}`)
           .json(result);
       })
-      .catch((error) => {
-        next(error);
+      .catch((databaseError) => {
+        next(databaseError);
       });
   } catch (error) {
     next(error);
@@ -119,10 +119,10 @@ exports.updateWorkout = (req, res, next) => {
 // @desc Delete a workout
 // @route Delete /api/workout/:workoutId
 // @access Private
-exports.deleteWorkout = async (req, res, next) => {
+exports.deleteWorkout = async (request, response, next) => {
   try {
-    const { userId } = req.user;
-    const { workoutId } = req.params;
+    const { userId } = request.user;
+    const { workoutId } = request.params;
 
     // //CHECK TO MAKE SURE WORKOUT_ID IS A NUMBER
     if (Number.isNaN(workoutId)) {
@@ -133,7 +133,7 @@ exports.deleteWorkout = async (req, res, next) => {
 
     const { rowCount } = await pg.query('DELETE FROM workout WHERE user_id = $1 AND workout_id = $2', [userId, workoutId]);
     if (rowCount === 1) {
-      res
+      response
         .status(204)
         .json({ message: 'workout deleted.' });
     } else {

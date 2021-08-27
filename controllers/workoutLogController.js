@@ -12,17 +12,17 @@ const updateableWorkoutLogFields = gatherTableUpdateableFields(workoutLogFields)
 // @desc Create a workout log
 // @route POST /api/workoutlog
 // @access Private
-exports.createWorkoutLog = async (req, res, next) => {
+exports.createWorkoutLog = async (request, response, next) => {
   try {
-    const error = validateRequestBody(req, workoutLogFields, next);
-    if (error instanceof Error) {
-      return next(error);
+    const requestBodyError = validateRequestBody(request, workoutLogFields, next);
+    if (requestBodyError instanceof Error) {
+      return next(requestBodyError);
     }
 
-    const { userId } = req.user;
+    const { userId } = request.user;
     const newWorkoutLog = { user_id: userId };
 
-    for (const [key, value] of Object.entries(req.body)) {
+    for (const [key, value] of Object.entries(request.body)) {
       newWorkoutLog[key] = value;
     }
 
@@ -32,13 +32,13 @@ exports.createWorkoutLog = async (req, res, next) => {
       .returning('*')
       .then((result) => {
         const results = result[0];
-        res
+        response
           .status(201)
-          .location(`${req.originalUrl}/${results.workout_log_id}`)
+          .location(`${request.originalUrl}/${results.workout_log_id}`)
           .json(results);
       })
-      .catch((error) => {
-        next(error);
+      .catch((databaseError) => {
+        next(databaseError);
       });
   } catch (error) {
     next(error);
@@ -48,11 +48,11 @@ exports.createWorkoutLog = async (req, res, next) => {
 // @desc Get all workout logs
 // @route Get /api/workoutlog
 // @access Private
-exports.getAllWorkoutLogs = async (req, res, next) => {
+exports.getAllWorkoutLogs = async (request, response, next) => {
   try {
-    const { userId } = req.user;
+    const { userId } = request.user;
     const { rows } = await pg.query('SELECT * FROM workout_log WHERE user_id = $1', [userId]);
-    res.status(200).json(rows);
+    response.status(200).json(rows);
   } catch (error) {
     next(error);
   }
@@ -61,12 +61,12 @@ exports.getAllWorkoutLogs = async (req, res, next) => {
 // @desc Get a workout log
 // @route Get /api/workoutlog/:workoutLogId
 // @access Private
-exports.getOneWorkoutLog = async (req, res, next) => {
+exports.getOneWorkoutLog = async (request, response, next) => {
   try {
-    const { userId } = req.user;
-    const { workoutLogId } = req.params;
+    const { userId } = request.user;
+    const { workoutLogId } = request.params;
     const { rows } = await pg.query('SELECT * FROM workout_log WHERE user_id = $1 AND workout_log_id = $2', [userId, workoutLogId]);
-    res.status(200).json(rows);
+    response.status(200).json(rows);
   } catch (error) {
     next(error);
   }
@@ -75,20 +75,20 @@ exports.getOneWorkoutLog = async (req, res, next) => {
 // @desc Update a workout log
 // @route Put /api/workoutlog/:workoutLogId
 // @access Private
-exports.updateWorkoutLog = (req, res, next) => {
+exports.updateWorkoutLog = (request, response, next) => {
   try {
-    const error = validateRequestBody(req, workoutLogFields, next);
-    if (error instanceof Error) {
-      return next(error);
+    const requestBodyError = validateRequestBody(request, workoutLogFields, next);
+    if (requestBodyError instanceof Error) {
+      return next(requestBodyError);
     }
 
-    const { userId } = req.user;
-    const { workoutLogId } = req.params;
+    const { userId } = request.user;
+    const { workoutLogId } = request.params;
     const toUpdate = {};
 
     updateableWorkoutLogFields.forEach((field) => {
-      if (field in req.body) {
-        toUpdate[field] = req.body[field];
+      if (field in request.body) {
+        toUpdate[field] = request.body[field];
       }
     });
 
@@ -103,13 +103,13 @@ exports.updateWorkoutLog = (req, res, next) => {
       .update(toUpdate)
       .then((results) => {
         const result = results[0];
-        res
+        response
           .status(200)
-          .location(`${req.originalUrl}/${result.workout_log_id}`)
+          .location(`${request.originalUrl}/${result.workout_log_id}`)
           .json(result);
       })
-      .catch((error) => {
-        next(error);
+      .catch((databaseError) => {
+        next(databaseError);
       });
   } catch (error) {
     next(error);
@@ -119,10 +119,10 @@ exports.updateWorkoutLog = (req, res, next) => {
 // @desc Delete a workout log
 // @route Delete /api/workoutlog/:workoutLogId
 // @access Private
-exports.deleteWorkoutLog = async (req, res, next) => {
+exports.deleteWorkoutLog = async (request, response, next) => {
   try {
-    const { userId } = req.user;
-    const { workoutLogId } = req.params;
+    const { userId } = request.user;
+    const { workoutLogId } = request.params;
 
     // //CHECK TO MAKE SURE WORKOUT_LOG_ID IS A NUMBER
     if (Number.isNaN(workoutLogId)) {
@@ -133,7 +133,7 @@ exports.deleteWorkoutLog = async (req, res, next) => {
 
     const { rowCount } = await pg.query('DELETE FROM workout_log WHERE user_id = $1 AND workout_log_id = $2', [userId, workoutLogId]);
     if (rowCount === 1) {
-      res.sendStatus(204);
+      response.sendStatus(204);
     } else {
       const error = new Error(
         `Could not find a workout log with workout_log_id: ${workoutLogId}.`,

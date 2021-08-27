@@ -152,6 +152,18 @@ const userFields = {
     dataType: 'STRING',
     fieldSize: { MIN: 1, MAX: 35 },
   },
+  email: {
+    required: true,
+    updateable: true,
+    dataType: 'STRING',
+    fieldSize: { MIN: 3, MAX: 70 },
+  },
+  name: {
+    required: true,
+    updateable: true,
+    dataType: 'STRING',
+    fieldSize: { MIN: 1, MAX: 70 },
+  },
   password: {
     required: true,
     updateable: true,
